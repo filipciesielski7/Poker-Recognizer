@@ -18,7 +18,7 @@ const LoadContainer = () => {
 
   function onRandomButtonClickChange() {
     setLoading(true);
-    let index = Math.floor(Math.random() * 10);
+    let index = Math.ceil(Math.random() * 10);
     setImage(`${process.env.PUBLIC_URL}/examples/example${index}.jpeg`);
     setTimeout(() => {
       setLoading(false);
@@ -30,11 +30,11 @@ const LoadContainer = () => {
       {loading ? <Loading /> : <Loading.ReleaseBody />}
       <Load>
         {!image ? (
-          <Load.Label for="file-upload">Dodaj zdjęcie kart</Load.Label>
+          <Load.Label htmlFor="file-upload">Dodaj zdjęcie kart</Load.Label>
         ) : null}
         <Load.OptionsContainer>
           {image ? (
-            <Load.SmallLabel for="file-upload">
+            <Load.SmallLabel htmlFor="file-upload">
               Dodaj nowe zdjęcie
             </Load.SmallLabel>
           ) : null}
