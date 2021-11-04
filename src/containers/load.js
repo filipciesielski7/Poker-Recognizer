@@ -16,6 +16,15 @@ const LoadContainer = () => {
     }, 1000);
   }
 
+  function onRandomButtonClickChange() {
+    setLoading(true);
+    let index = Math.floor(Math.random() * 10);
+    setImage(`${process.env.PUBLIC_URL}/examples/example${index}.jpeg`);
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+  }
+
   return (
     <>
       {loading ? <Loading /> : <Loading.ReleaseBody />}
@@ -29,7 +38,9 @@ const LoadContainer = () => {
               Dodaj nowe zdjęcie
             </Load.SmallLabel>
           ) : null}
-          <Load.Button>Załaduj losowe</Load.Button>
+          <Load.Button onClick={onRandomButtonClickChange}>
+            Załaduj losowe
+          </Load.Button>
           <Load.GithubLink
             href="https://github.com/filipciesielski7/Poker_Recognizer"
             target="_blank"
