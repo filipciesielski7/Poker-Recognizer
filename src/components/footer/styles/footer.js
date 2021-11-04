@@ -44,7 +44,6 @@ export const Link = styled.a`
 export const Text = styled.p`
   font-size: 12px;
   color: #757575;
-  margin-bottom: 20px;
 `;
 
 export const Break = styled.div`

@@ -12,6 +12,6 @@ export const GlobalStyles = createGlobalStyle`
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-color: rgba(177, 221, 158, .7);
+    background-color: rgba(177, 221, 158);
     font-size: 16px;
 }`;
