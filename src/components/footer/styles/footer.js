@@ -7,6 +7,8 @@ export const Container = styled.div`
   max-width: 1000px;
   flex-direction: column;
 
+  height: 20vh;
+
   @media (max-width: 1000px) {
     padding: 70px 30px;
   }

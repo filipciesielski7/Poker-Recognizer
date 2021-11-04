@@ -7,7 +7,7 @@ export const Container = styled.div`
   max-width: 1000px;
   flex-direction: column;
 
-  height: 100vh;
+  height: 80vh;
 
   align-items: center;
   justify-content: center;
@@ -17,10 +17,109 @@ export const Container = styled.div`
   }
 `;
 
-export const Input = styled.input``;
+export const Input = styled.input`
+  display: none;
+`;
 
 export const Image = styled.img`
   max-width: 70vw;
   max-height: 70vh;
+`;
+
+export const Label = styled.label`
   border: 1px solid white;
+  color: black;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 30px;
+
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  font-weight: 500;
+  background-color: white;
+  box-shadow: 0 8px 15px black;
+  transition: all 0.3s ease 0s;
+
+  &:hover {
+    transform: scale(1.1);
+    background: rgba(255, 255, 255);
+  }
+
+  &:active {
+    transform: translateY(2px);
+  }
+`;
+
+export const SmallLabel = styled.label`
+  padding: 10px;
+  margin: 0 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  text-transform: uppercase;
+
+  border: none;
+  outline: none;
+  background: white;
+  border: 1px solid white;
+  color: black;
+  transition: all 0.5s ease 0s;
+
+  box-shadow: 0 0.5px 2px white;
+
+  &:hover {
+    transform: scale(1.05);
+    background: rgba(255, 255, 255);
+    color: black;
+  }
+
+  &:active {
+    transform: translateY(2px);
+    box-shadow: 0 0px 0px white;
+  }
+`;
+
+export const Button = styled.button`
+  padding: 10px;
+  margin: 0 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  text-transform: uppercase;
+
+  border: none;
+  outline: none;
+  background: none;
+  border: 1px solid white;
+  color: white;
+  transition: all 0.5s ease 0s;
+
+  box-shadow: 0 0.5px 2px white;
+
+  &:hover {
+    transform: scale(1.05);
+    background: rgba(255, 255, 255);
+    color: black;
+  }
+
+  &:active {
+    transform: translateY(2px);
+    box-shadow: 0 0px 0px white;
+  }
+`;
+
+export const OptionsContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-beetween;
+  margin-bottom: 30px;
+`;
+
+export const GithubLink = styled.a`
+  color: white;
+  margin: 0 10px;
+  transition: all 0.5s ease 0s;
+
+  &:hover {
+    transform: scale(1.05);
+  }
 `;

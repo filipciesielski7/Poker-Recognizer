@@ -8,10 +8,9 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   html, body {
-    height: 100%;
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-color: rgba(177, 221, 158);
+    background-color: #094C22;
     font-size: 16px;
 }`;
