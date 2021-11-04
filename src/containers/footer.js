@@ -10,10 +10,17 @@ const FooterContainer = () => {
       <Footer.Break />
       <Footer.Row>
         <Footer.Column>
-          <Footer.Link href="#">Sprawozdanie</Footer.Link>
+          <Footer.Link
+            href={`${process.env.PUBLIC_URL}/Sprawozdanie.pdf`}
+            download
+          >
+            Sprawozdanie
+          </Footer.Link>
         </Footer.Column>
         <Footer.Column>
-          <Footer.Link href="#">Kontakt</Footer.Link>
+          <Footer.Link href="mailto:filip.ciesielski@student.put.poznan.pl">
+            Kontakt
+          </Footer.Link>
         </Footer.Column>
       </Footer.Row>
       <Footer.Break />
