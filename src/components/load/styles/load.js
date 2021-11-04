@@ -16,3 +16,11 @@ export const Container = styled.div`
     padding: 70px 30px;
   }
 `;
+
+export const Input = styled.input``;
+
+export const Image = styled.img`
+  max-width: 70vw;
+  max-height: 70vh;
+  border: 1px solid white;
+`;
