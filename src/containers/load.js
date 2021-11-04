@@ -34,7 +34,7 @@ const LoadContainer = () => {
             href="https://github.com/filipciesielski7/Poker_Recognizer"
             target="_blank"
           >
-            <AiOutlineGithub size={40} />
+            <AiOutlineGithub size={35} />
           </Load.GithubLink>
         </Load.OptionsContainer>
         <Load.Input

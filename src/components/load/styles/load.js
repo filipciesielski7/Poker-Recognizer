@@ -49,6 +49,27 @@ export const Label = styled.label`
   &:active {
     transform: translateY(2px);
   }
+
+  @media (max-width: 600px) {
+    font-size: 12px;
+    padding: 15px;
+    margin: 25px;
+  }
+  @media (max-width: 350px) {
+    font-size: 10px;
+    padding: 15px;
+    margin: 20px;
+  }
+  @media (max-width: 350px) {
+    font-size: 10px;
+    padding: 15px;
+    margin: 20px;
+  }
+  @media (max-width: 300px) {
+    font-size: 10px;
+    padding: 13px;
+    margin: 15px;
+  }
 `;
 
 export const SmallLabel = styled.label`
@@ -76,6 +97,16 @@ export const SmallLabel = styled.label`
   &:active {
     transform: translateY(2px);
     box-shadow: 0 0px 0px white;
+  }
+
+  @media (max-width: 450px) {
+    font-size: 10px;
+    padding: 7px;
+  }
+
+  @media (max-width: 390px) {
+    font-size: 11px;
+    padding: 11px;
   }
 `;
 
@@ -105,6 +136,15 @@ export const Button = styled.button`
     transform: translateY(2px);
     box-shadow: 0 0px 0px white;
   }
+
+  @media (max-width: 450px) {
+    font-size: 10px;
+    padding: 7px;
+  }
+
+  @media (max-width: 390px) {
+    margin: 10px;
+  }
 `;
 
 export const OptionsContainer = styled.div`
@@ -112,6 +152,12 @@ export const OptionsContainer = styled.div`
   align-items: center;
   justify-content: space-beetween;
   margin-bottom: 30px;
+
+  @media (max-width: 390px) {
+    font-size: 10px;
+    padding: 7px;
+    flex-direction: column;
+  }
 `;
 
 export const GithubLink = styled.a`
