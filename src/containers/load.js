@@ -7,7 +7,7 @@ const LoadContainer = () => {
   const { image, setImage, loading, setLoading } = useApp();
 
   useEffect(() => {
-    fetch("http://127.0.0.1:5000/")
+    fetch("http://127.0.0.1:5000/image")
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
