@@ -1,5 +1,5 @@
 from flask import Flask
-import time
+from flask.helpers import send_from_directory
 from flask_cors import CORS, cross_origin
 
 app = Flask(__name__, static_folder='../build', static_url_path='/')
