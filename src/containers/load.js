@@ -1,15 +1,12 @@
-import React from "react";
+import React, {useState} from "react";
 import { Load, Loading } from "../components";
 import { AiOutlineGithub } from "react-icons/ai";
 import { useApp } from "../contexts/context.js";
 import axios from "axios";
 
-// Zapisywanie wczytanego przez uztykownika zdjecia
-// opoznienie w wysiwetlaniu
-
 const LoadContainer = () => {
   const { image, setImage, loading, setLoading } = useApp();
-  // const { loaded, cv } = useOpenCv();
+  const [result, setResult] = useState(false)
 
   var config = {
     headers: {
@@ -18,16 +15,12 @@ const LoadContainer = () => {
     },
   };
 
-  async function handleSubmit() {
-    // console.log(image);
-    // let canvas = document.getElementById("current_image");
-    // let img = cv.imread("current_image");
-    // cv.imshow(canvasOutput, img);
-
+  async function handleSubmit(event) {
+    event.preventDefault();
     await axios
       .post("/upload", { method: "POST", image: image }, config)
       .then((data) => {
-        console.log(data.data.filename);
+        setResult(true)
       });
   }
 
@@ -86,7 +79,7 @@ const LoadContainer = () => {
           alt="Twoja kombinacja kart"
           id="current_image"
         />
-        {image ? (
+        {result ? (
           <Load.Image
             src={`${process.env.PUBLIC_URL}/result.jpg`}
             alt="Twoja kombinacja kart"
