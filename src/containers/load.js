@@ -1,23 +1,32 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Load, Loading } from "../components";
 import { AiOutlineGithub } from "react-icons/ai";
 import { useApp } from "../contexts/context.js";
+import axios from "axios";
 
 const LoadContainer = () => {
   const { image, setImage, loading, setLoading } = useApp();
 
-  useEffect(() => {
-    fetch("http://127.0.0.1:5000/image")
-      .then((res) => res.json())
+  const Upload = async (image) => {
+    setLoading(true);
+    await axios
+      .post("http://127.0.0.1:5000/upload", {
+        method: "POST",
+        snap: image,
+      })
       .then((data) => {
-        console.log(data);
-      });
-  }, []);
+        console.log(data.data);
+      })
+      .then(() => setLoading(false));
+  };
 
   async function onImageChange(event) {
     setLoading(true);
     if (event.target.files && event.target.files[0]) {
       setImage(URL.createObjectURL(event.target.files[0]));
+      Upload(
+        fetch(URL.createObjectURL(event.target.files[0])).then((r) => r.blob())
+      );
     }
     setTimeout(() => {
       setLoading(false);
