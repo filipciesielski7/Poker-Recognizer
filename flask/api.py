@@ -6,6 +6,7 @@ from skimage import io, data, filters, color, measure, exposure, morphology, img
 import numpy as np
 from matplotlib import pyplot as plt
 import threading
+import CardRecognition
 
 app = Flask(__name__)
 CORS(app, resources={r'/*': {'origins': '*'}})
@@ -21,11 +22,14 @@ def get_images():
 def upload():
     data = request.get_json(silent=True)
     image = {'filename': data.get('image')}
-    filename = data.get('image')[17:]
-    img1 = io.imread(f"../public/{filename}")
-    img2 = color.rgb2gray(img1)
-    threading.Thread(target=task, args=(img1,img2,)).start()
-    print(img1)
+    # print(image)
+    filename = data.get('image')[27:]
+    przerobionyObraz = CardRecognition.drawImage(filename)
+    cv2.imwrite(f"../public/result.jpg", przerobionyObraz)
+    # img1 = io.imread(f"../public/{filename}")
+    # img2 = color.rgb2gray(img1)
+    # threading.Thread(target=task, args=(img1,img2,)).start()
+    # print(img1)
     return image
 
 
