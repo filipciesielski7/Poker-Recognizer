@@ -1,56 +1,63 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Load, Loading } from "../components";
 import { AiOutlineGithub } from "react-icons/ai";
 import { useApp } from "../contexts/context.js";
 import axios from "axios";
 
 const LoadContainer = () => {
-  const { image, setImage, loading, setLoading } = useApp();
+  const { image, setImage, loading, setLoading, firstLoad, setFirstLoad } =
+    useApp();
+
+  useEffect(() => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+  }, []);
+
+  var config = {
+    headers: {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*",
+    },
+  };
 
   const Upload = async (image) => {
-    setLoading(true);
+    setFirstLoad(true);
+    // var formData = new FormData();
+    // var imagefile = document.querySelector("#file-upload");
+    // formData.append("image", imagefile.files[0]);
+    // console.log(formData);
     await axios
-      .post("http://127.0.0.1:5000/upload", {
-        method: "POST",
-        snap: image,
-      })
+      .post("/upload", { method: "POST", image: image }, config)
       .then((data) => {
-        console.log(data.data);
-      })
-      .then(() => setLoading(false));
+        // setImage(data.data.filename);
+        setLoading(false);
+      });
   };
 
   async function onImageChange(event) {
     setLoading(true);
     if (event.target.files && event.target.files[0]) {
-      setImage(URL.createObjectURL(event.target.files[0]));
-      Upload(
-        fetch(URL.createObjectURL(event.target.files[0])).then((r) => r.blob())
-      );
+      Upload(fetch(URL.createObjectURL(event.target.files[0])));
     }
-    setTimeout(() => {
-      setLoading(false);
-    }, 1000);
   }
 
   function onRandomButtonClickChange() {
     setLoading(true);
     let index = Math.ceil(Math.random() * 10);
-    setImage(`${process.env.PUBLIC_URL}/examples/example${index}.jpeg`);
-    setTimeout(() => {
-      setLoading(false);
-    }, 1000);
+    Upload(`${process.env.PUBLIC_URL}/examples/example${index}.jpeg`);
   }
 
   return (
     <>
       {loading ? <Loading /> : <Loading.ReleaseBody />}
       <Load>
-        {!image ? (
+        {!firstLoad ? (
           <Load.Label htmlFor="file-upload">Dodaj zdjęcie kart</Load.Label>
         ) : null}
-        <Load.OptionsContainer image={image}>
-          {image ? (
+        <Load.OptionsContainer image={false}>
+          {firstLoad ? (
             <Load.SmallLabel htmlFor="file-upload">
               Dodaj nowe zdjęcie
             </Load.SmallLabel>
@@ -73,10 +80,27 @@ const LoadContainer = () => {
           onChange={onImageChange}
           accept="image/png, image/jpeg, image/jpg"
         />
-        <Load.Image
-          src={image ? image : `${process.env.PUBLIC_URL}/poker-cards.png`}
-          alt="Twoja kombinacja kart"
-        />
+        {/* {!firstLoad ? null : (
+          <>
+            <Load.Image src={image} alt="Twoja kombinacja kart" />
+
+            <Load.Image
+              src={`${process.env.PUBLIC_URL}/examples/test.jpeg`}
+              alt="Twoja kombinacja kart"
+            />
+          </>
+        )} */}
+        <>
+          <Load.Image
+            src={`${process.env.PUBLIC_URL}/examples/aktualny.jpeg`}
+            alt="Twoja kombinacja kart"
+          />
+
+          <Load.Image
+            src={`${process.env.PUBLIC_URL}/examples/test.jpeg`}
+            alt="Twoja kombinacja kart"
+          />
+        </>
       </Load>
     </>
   );
