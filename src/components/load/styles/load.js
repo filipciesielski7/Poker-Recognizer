@@ -105,8 +105,8 @@ export const SmallLabel = styled.label`
   }
 
   @media (max-width: 390px) {
-    font-size: 11px;
-    padding: 11px;
+    font-size: 12px;
+    padding: 13px;
   }
 `;
 
@@ -156,6 +156,7 @@ export const OptionsContainer = styled.div`
   @media (max-width: 390px) {
     font-size: 10px;
     padding: 7px;
+    // flex-direction: ${({ image }) => (image ? "column" : "")};
     flex-direction: column;
   }
 `;
@@ -167,5 +168,14 @@ export const GithubLink = styled.a`
 
   &:hover {
     transform: scale(1.05);
+  }
+`;
+
+export const SmallOptionsContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-beetween;
+  @media (max-width: 390px) {
+    margin-top: 10px;
   }
 `;

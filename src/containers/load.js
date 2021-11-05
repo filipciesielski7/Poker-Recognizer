@@ -32,21 +32,23 @@ const LoadContainer = () => {
         {!image ? (
           <Load.Label htmlFor="file-upload">Dodaj zdjęcie kart</Load.Label>
         ) : null}
-        <Load.OptionsContainer>
+        <Load.OptionsContainer image={image}>
           {image ? (
             <Load.SmallLabel htmlFor="file-upload">
               Dodaj nowe zdjęcie
             </Load.SmallLabel>
           ) : null}
-          <Load.Button onClick={onRandomButtonClickChange}>
-            Załaduj losowe
-          </Load.Button>
-          <Load.GithubLink
-            href="https://github.com/filipciesielski7/Poker_Recognizer"
-            target="_blank"
-          >
-            <AiOutlineGithub size={35} />
-          </Load.GithubLink>
+          <Load.SmallOptionsContainer>
+            <Load.Button onClick={onRandomButtonClickChange}>
+              Załaduj losowe
+            </Load.Button>
+            <Load.GithubLink
+              href="https://github.com/filipciesielski7/Poker_Recognizer"
+              target="_blank"
+            >
+              <AiOutlineGithub size={35} />
+            </Load.GithubLink>
+          </Load.SmallOptionsContainer>
         </Load.OptionsContainer>
         <Load.Input
           id="file-upload"

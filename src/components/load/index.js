@@ -7,6 +7,7 @@ import {
   Label,
   Button,
   OptionsContainer,
+  SmallOptionsContainer,
   GithubLink,
 } from "./styles/load";
 
@@ -39,6 +40,13 @@ Load.OptionsContainer = function LoadOptionsContainer({
   ...restProps
 }) {
   return <OptionsContainer {...restProps}>{children}</OptionsContainer>;
+};
+
+Load.SmallOptionsContainer = function LoadSmallOptionsContainer({
+  children,
+  ...restProps
+}) {
+  return <SmallOptionsContainer {...restProps}>{children}</SmallOptionsContainer>;
 };
 
 Load.GithubLink = function LoadGithubLink({ children, ...restProps }) {
