@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { Load, Loading } from "../components";
 import { AiOutlineGithub } from "react-icons/ai";
+import { useApp } from "../contexts/context.js";
 
 const LoadContainer = () => {
-  const [image, setImage] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const { image, setImage, loading, setLoading } = useApp();
 
   async function onImageChange(event) {
     setLoading(true);
