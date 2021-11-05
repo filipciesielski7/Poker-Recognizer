@@ -1,0 +1,10 @@
+{
+  "short_name": "Poker",
+  "name": "Poker Recognizer",
+  "icons": [
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#ffffff",
+  "background_color": "#ffffff"
+}

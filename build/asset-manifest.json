@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.js": "/Poker_Recognizer/static/js/main.81181384.chunk.js",
+    "main.js.map": "/Poker_Recognizer/static/js/main.81181384.chunk.js.map",
+    "runtime-main.js": "/Poker_Recognizer/static/js/runtime-main.02c5ad71.js",
+    "runtime-main.js.map": "/Poker_Recognizer/static/js/runtime-main.02c5ad71.js.map",
+    "static/js/2.01f311ae.chunk.js": "/Poker_Recognizer/static/js/2.01f311ae.chunk.js",
+    "static/js/2.01f311ae.chunk.js.map": "/Poker_Recognizer/static/js/2.01f311ae.chunk.js.map",
+    "index.html": "/Poker_Recognizer/index.html",
+    "static/js/2.01f311ae.chunk.js.LICENSE.txt": "/Poker_Recognizer/static/js/2.01f311ae.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.02c5ad71.js",
+    "static/js/2.01f311ae.chunk.js",
+    "static/js/main.81181384.chunk.js"
+  ]
+}
