@@ -22,18 +22,7 @@ def get_images():
 def upload():
     data = request.get_json(silent=True)
     image = {'filename': data.get('image')}
-    # print(image)
     filename = data.get('image')[27:]
     przerobionyObraz = CardRecognition.drawImage(filename)
     cv2.imwrite(f"../public/result.jpg", przerobionyObraz)
-    # img1 = io.imread(f"../public/{filename}")
-    # img2 = color.rgb2gray(img1)
-    # threading.Thread(target=task, args=(img1,img2,)).start()
-    # print(img1)
     return image
-
-
-def task(img1, img2):
-    io.imsave("../public/examples/aktualny.jpeg", img1)
-    io.imsave("../public/examples/test.jpeg", img2)
-    return

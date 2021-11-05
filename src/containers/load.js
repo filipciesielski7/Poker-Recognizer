@@ -1,12 +1,15 @@
-import React, {useState} from "react";
+import React from "react";
 import { Load, Loading } from "../components";
 import { AiOutlineGithub } from "react-icons/ai";
 import { useApp } from "../contexts/context.js";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 const LoadContainer = () => {
   const { image, setImage, loading, setLoading } = useApp();
-  const [result, setResult] = useState(false)
+  // const [result, setResult] = useState(false);
+  // let navigate = useNavigate();
+  // const fs = require("fs-extra");
 
   var config = {
     headers: {
@@ -20,7 +23,8 @@ const LoadContainer = () => {
     await axios
       .post("/upload", { method: "POST", image: image }, config)
       .then((data) => {
-        setResult(true)
+        // setResult(true);
+        // navigate.push("/result");
       });
   }
 
@@ -35,6 +39,7 @@ const LoadContainer = () => {
   }
 
   function onRandomButtonClickChange() {
+    // usuwanie rezultatu
     setLoading(true);
     let index = Math.ceil(Math.random() * 3);
     setImage(`${process.env.PUBLIC_URL}/examples/example${index}.jpg`);
@@ -79,13 +84,14 @@ const LoadContainer = () => {
           alt="Twoja kombinacja kart"
           id="current_image"
         />
-        {result ? (
+        {/* {result ? (
           <Load.Image
             src={`${process.env.PUBLIC_URL}/result.jpg`}
             alt="Twoja kombinacja kart"
           />
-        ) : null}
+        ) : null} */}
         {image ? <Load.Button onClick={handleSubmit}>Run</Load.Button> : null}
+        <Link to="/result">Wynik</Link>
       </Load>
     </>
   );

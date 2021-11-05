@@ -1,14 +1,14 @@
 import React from "react";
 import FooterContainer from "../containers/footer";
-import LoadContainer from "../containers/load";
+import ResultContainer from "../containers/result";
 
-const Home = () => {
+const Result = () => {
   return (
     <>
-      <LoadContainer />
+      <ResultContainer />
       <FooterContainer />
     </>
   );
 };
 
-export default Home;
+export default Result;
