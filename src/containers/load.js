@@ -1,10 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Load, Loading } from "../components";
 import { AiOutlineGithub } from "react-icons/ai";
 import { useApp } from "../contexts/context.js";
 
 const LoadContainer = () => {
   const { image, setImage, loading, setLoading } = useApp();
+
+  useEffect(() => {
+    fetch("http://127.0.0.1:5000/")
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+      });
+  }, []);
 
   async function onImageChange(event) {
     setLoading(true);
