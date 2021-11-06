@@ -19,7 +19,7 @@ const LoadContainer = () => {
     const formData = new FormData(e.target);
 
     const Upload = async () => {
-      await fetch("/user/upload", {
+      await fetch("user/upload", {
         method: "POST",
         body: formData,
       }).then((resp) => {
@@ -39,7 +39,7 @@ const LoadContainer = () => {
   async function handleSubmit(event) {
     event.preventDefault();
     await axios
-      .post("/upload", { method: "POST", image: image }, config)
+      .post("upload", { method: "POST", image: image }, config)
       .then((resp) => {
         // console.log(resp);
       });

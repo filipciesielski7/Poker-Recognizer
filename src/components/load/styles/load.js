@@ -34,7 +34,7 @@ export const Label = styled.label`
   color: black;
   border-radius: 10px;
   padding: 15px;
-  margin: 20px;
+  // margin: 20px;
 
   font-size: 12px;
   text-transform: uppercase;
@@ -56,22 +56,12 @@ export const Label = styled.label`
   @media (max-width: 600px) {
     font-size: 12px;
     padding: 15px;
-    margin: 25px;
+    // margin: 25px;
   }
-  @media (max-width: 350px) {
-    font-size: 10px;
-    padding: 15px;
-    margin: 15px;
-  }
-  @media (max-width: 350px) {
-    font-size: 10px;
-    padding: 15px;
-    margin: 10px;
-  }
-  @media (max-width: 300px) {
+  @media (max-width: 450px) {
     font-size: 10px;
     padding: 13px;
-    margin: 5px;
+    // margin: 15px;
   }
 `;
 
@@ -107,10 +97,10 @@ export const SmallLabel = styled.label`
     padding: 7px;
   }
 
-  @media (max-width: 390px) {
-    font-size: 12px;
-    padding: 13px;
-  }
+  // @media (max-width: 390px) {
+  //   font-size: 12px;
+  //   padding: 13px;
+  // }
 `;
 
 export const Button = styled.button`
@@ -146,7 +136,7 @@ export const Button = styled.button`
   }
 
   @media (max-width: 390px) {
-    margin: 10px;
+    // margin: 10px;
   }
 `;
 
@@ -158,7 +148,7 @@ export const OptionsContainer = styled.div`
 
   @media (max-width: 390px) {
     font-size: 10px;
-    padding: 7px;
+    // padding: 7px;
     // flex-direction: ${({ image }) => (image ? "column" : "")};
     flex-direction: column;
   }
@@ -178,9 +168,9 @@ export const SmallOptionsContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-beetween;
-  @media (max-width: 390px) {
-    margin-top: 10px;
-  }
+  // @media (max-width: 390px) {
+  //   margin-top: 10px;
+  // }
 `;
 
 export const Form = styled.form`
