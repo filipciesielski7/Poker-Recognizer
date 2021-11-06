@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Load, Loading } from "../components";
 import { AiOutlineGithub } from "react-icons/ai";
 import { useApp } from "../contexts/context.js";
@@ -6,6 +6,7 @@ import axios from "axios";
 
 const LoadContainer = () => {
   const { image, setImage, loading, setLoading } = useApp();
+  const [userImage, setUserImage] = useState(false);
 
   useEffect(() => {
     setTimeout(() => {
@@ -13,14 +14,7 @@ const LoadContainer = () => {
     }, 1000);
   }, [setLoading]);
 
-  var config = {
-    headers: {
-      "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": "*",
-    },
-  };
-
-  async function handleNewSubmit(e) {
+  async function handleFormSubmit(e) {
     e.preventDefault();
     const formData = new FormData(e.target);
 
@@ -35,6 +29,13 @@ const LoadContainer = () => {
     Upload();
   }
 
+  var config = {
+    headers: {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*",
+    },
+  };
+
   async function handleSubmit(event) {
     event.preventDefault();
     await axios
@@ -46,6 +47,7 @@ const LoadContainer = () => {
 
   function onImageChange(event) {
     setLoading(true);
+    setUserImage(true);
     if (event.target.files && event.target.files[0]) {
       setImage(URL.createObjectURL(event.target.files[0]));
     }
@@ -55,7 +57,6 @@ const LoadContainer = () => {
   }
 
   function onRandomButtonClickChange() {
-    // usuwanie rezultatu
     setLoading(true);
     let index = Math.ceil(Math.random() * 4);
     setImage(`${process.env.PUBLIC_URL}/examples/example${index}.jpg`);
@@ -68,7 +69,11 @@ const LoadContainer = () => {
     <>
       {loading ? <Loading /> : <Loading.ReleaseBody />}
       <Load>
-        <Load.Form encType="multipart/form-data" onSubmit={handleNewSubmit}>
+        <Load.Form
+          encType="multipart/form-data"
+          onSubmit={handleFormSubmit}
+          id="my-form"
+        >
           <Load.Label htmlFor="img">Dodaj zdjęcie kart</Load.Label>
           <Load.Input
             type="file"
@@ -77,26 +82,8 @@ const LoadContainer = () => {
             accept="image/png, image/jpeg, image/jpg"
             onChange={onImageChange}
           ></Load.Input>
-          {/* <input type="file" id="img" name="file" accept="image/*"></input> */}
-          <input type="submit"></input>
         </Load.Form>
-
-        {/* {!image ? (
-          <Load.Label htmlFor="file-upload">Dodaj zdjęcie kart</Load.Label>
-        ) : null} */}
-        {/* <Load.Input
-          id="file-upload"
-          type="file"
-          onChange={onImageChange}
-          accept="image/png, image/jpeg, image/jpg"
-        /> */}
-
         <Load.OptionsContainer image={image}>
-          {/* {image ? (
-            <Load.SmallLabel htmlFor="file-upload">
-              Dodaj nowe zdjęcie
-            </Load.SmallLabel>
-          ) : null} */}
           <Load.SmallOptionsContainer>
             <Load.Button onClick={onRandomButtonClickChange}>
               Załaduj losowe
@@ -130,19 +117,14 @@ const LoadContainer = () => {
             />
           </>
         ) : null}
-        {/* <Load.Image
-          src={image ? image : `${process.env.PUBLIC_URL}/poker-cards.png`}
-          alt="Twoja kombinacja kart"
-          id="current_image"
-        /> */}
-        {/* {result ? (
-          <Load.Image
-            src={`${process.env.PUBLIC_URL}/result.jpg`}
-            alt="Twoja kombinacja kart"
-          />
-        ) : null} */}
         {image ? (
-          <Load.Button onClick={handleSubmit}>Uruchom algorytm</Load.Button>
+          !userImage ? (
+            <Load.Button onClick={handleSubmit}>Uruchom algorytm</Load.Button>
+          ) : (
+            <Load.Button type="submit" form="my-form">
+              Uruchom algorytm
+            </Load.Button>
+          )
         ) : null}
       </Load>
     </>

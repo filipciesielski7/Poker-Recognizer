@@ -11,10 +11,11 @@ import CardRecognition
 app = Flask(__name__)
 CORS(app, resources={r'/*': {'origins': '*'}})
 
-@app.route('/image', methods=["GET"])
+
+@app.route('/', methods=["GET"])
 @cross_origin()
 def get_images():
-    return {'image': ["image1", "image2", "image3"]}
+    return {'app name': "Poker Recognizer"}
 
 
 @app.route('/upload', methods=['POST'])
@@ -47,7 +48,7 @@ def handle_form():
 
     img2 = cv2.imdecode(npimg, cv2.IMREAD_GRAYSCALE)
     cv2.imwrite(f"../public/result.jpg", img2)
-    
+
     return {
         'success': True,
         'file': 'Received'
