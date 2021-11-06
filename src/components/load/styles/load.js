@@ -24,6 +24,9 @@ export const Input = styled.input`
 export const Image = styled.img`
   max-width: 70vw;
   max-height: 70vh;
+  margin-bottom: 20px;
+  border: 1px solid white;
+  border-radius: 4px;
 `;
 
 export const Label = styled.label`
@@ -179,3 +182,5 @@ export const SmallOptionsContainer = styled.div`
     margin-top: 10px;
   }
 `;
+
+export const Form = styled.form``;

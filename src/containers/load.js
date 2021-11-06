@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Load, Loading } from "../components";
 import { AiOutlineGithub } from "react-icons/ai";
 import { useApp } from "../contexts/context.js";
@@ -7,9 +7,12 @@ import axios from "axios";
 
 const LoadContainer = () => {
   const { image, setImage, loading, setLoading } = useApp();
-  // const [result, setResult] = useState(false);
-  // let navigate = useNavigate();
-  // const fs = require("fs-extra");
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+  }, [setLoading]);
 
   var config = {
     headers: {
@@ -18,13 +21,27 @@ const LoadContainer = () => {
     },
   };
 
+  async function handleNewSubmit(e) {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+
+    const Upload = async () => {
+      await fetch("/user/upload", {
+        method: "POST",
+        body: formData,
+      }).then((resp) => {
+        // console.log(resp);
+      });
+    };
+    Upload();
+  }
+
   async function handleSubmit(event) {
     event.preventDefault();
     await axios
       .post("/upload", { method: "POST", image: image }, config)
-      .then((data) => {
-        // setResult(true);
-        // navigate.push("/result");
+      .then((resp) => {
+        // console.log(resp);
       });
   }
 
@@ -79,19 +96,47 @@ const LoadContainer = () => {
           onChange={onImageChange}
           accept="image/png, image/jpeg, image/jpg"
         />
-        <Load.Image
+        {image ? (
+          <Load.Image
+            src={image}
+            alt="Twoja kombinacja kart"
+            id="current_image"
+          />
+        ) : null}
+        {!image ? (
+          <>
+            <Load.Image
+              src={`${process.env.PUBLIC_URL}/original.jpg`}
+              alt="Twoja kombinacja kart"
+              id="current_image"
+            />
+            <Load.Image
+              src={`${process.env.PUBLIC_URL}/result.jpg`}
+              alt="Twoja kombinacja kart"
+              id="current_image"
+            />
+          </>
+        ) : null}
+        {/* <Load.Image
           src={image ? image : `${process.env.PUBLIC_URL}/poker-cards.png`}
           alt="Twoja kombinacja kart"
           id="current_image"
-        />
+        /> */}
         {/* {result ? (
           <Load.Image
             src={`${process.env.PUBLIC_URL}/result.jpg`}
             alt="Twoja kombinacja kart"
           />
         ) : null} */}
-        {image ? <Load.Button onClick={handleSubmit}>Run</Load.Button> : null}
-        <Link to="/result">Wynik</Link>
+        {image ? (
+          <Load.Button onClick={handleSubmit}>Uruchom algorytm</Load.Button>
+        ) : null}
+        <Link to="/upload">Wynik</Link>
+        <form encType="multipart/form-data" onSubmit={handleNewSubmit}>
+          <label htmlFor="img">Wybierz</label>
+          <input type="file" id="img" name="file" accept="image/*"></input>
+          <input type="submit"></input>
+        </form>
       </Load>
     </>
   );

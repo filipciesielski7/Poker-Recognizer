@@ -8,7 +8,7 @@ export function useApp() {
 
 export function AppProvider({ children }) {
   const [image, setImage] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [firstLoad, setFirstLoad] = useState(false);
 
   const value = {

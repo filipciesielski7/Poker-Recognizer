@@ -9,6 +9,7 @@ import {
   OptionsContainer,
   SmallOptionsContainer,
   GithubLink,
+  Form,
 } from "./styles/load";
 
 export default function Load({ children, ...restProps }) {
@@ -51,4 +52,8 @@ Load.SmallOptionsContainer = function LoadSmallOptionsContainer({
 
 Load.GithubLink = function LoadGithubLink({ children, ...restProps }) {
   return <GithubLink {...restProps}>{children}</GithubLink>;
+};
+
+Load.Form = function LoadForm({ children, ...restProps }) {
+  return <Form {...restProps}>{children}</Form>;
 };

@@ -23,6 +23,28 @@ def upload():
     data = request.get_json(silent=True)
     image = {'filename': data.get('image')}
     filename = data.get('image')[27:]
+
+    original = cv2.imread('../public/examples/' + filename)
+    cv2.imwrite(f"../public/original.jpg", original)
+
     przerobionyObraz = CardRecognition.drawImage(filename)
     cv2.imwrite(f"../public/result.jpg", przerobionyObraz)
-    return image
+
+    return {
+        'success': True,
+        'file': 'Received'
+    }
+
+
+@app.route('/user/upload', methods=['POST'])
+@cross_origin()
+def handle_form():
+    files = request.files['file']
+    npimg = np.fromfile(files, np.uint8)
+    # convert numpy array to image
+    img = cv2.imdecode(npimg, cv2.IMREAD_GRAYSCALE)
+    # cv2.imwrite(f"../public/result.jpg", img)
+    return {
+        'success': True,
+        'file': 'Received'
+    }
