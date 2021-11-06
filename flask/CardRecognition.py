@@ -42,11 +42,11 @@ train_suits = Cards.load_suits(path + '/Card_Imgs/')
 # Deleted by Michu-dev
 
 def drawImage(filename):
-    global frame_rate_calc
     # Grab frame from video stream
+    global frame_rate_calc
     folder = '../public/examples/'
 
-    image = cv2.imread(folder + filename)
+    image = filename
 
     # Start timer (for calculating frame rate)
     t1 = cv2.getTickCount()
