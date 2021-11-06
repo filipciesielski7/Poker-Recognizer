@@ -41,9 +41,13 @@ def upload():
 def handle_form():
     files = request.files['file']
     npimg = np.fromfile(files, np.uint8)
-    # convert numpy array to image
-    img = cv2.imdecode(npimg, cv2.IMREAD_GRAYSCALE)
-    # cv2.imwrite(f"../public/result.jpg", img)
+
+    img1 = cv2.imdecode(npimg, cv2.IMREAD_COLOR)
+    cv2.imwrite(f"../public/original.jpg", img1)
+
+    img2 = cv2.imdecode(npimg, cv2.IMREAD_GRAYSCALE)
+    cv2.imwrite(f"../public/result.jpg", img2)
+    
     return {
         'success': True,
         'file': 'Received'

@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { Load, Loading } from "../components";
 import { AiOutlineGithub } from "react-icons/ai";
 import { useApp } from "../contexts/context.js";
-import { Link } from "react-router-dom";
 import axios from "axios";
 
 const LoadContainer = () => {
@@ -52,32 +51,52 @@ const LoadContainer = () => {
     }
     setTimeout(() => {
       setLoading(false);
-    }, 1000);
+    }, 300);
   }
 
   function onRandomButtonClickChange() {
     // usuwanie rezultatu
     setLoading(true);
-    let index = Math.ceil(Math.random() * 3);
+    let index = Math.ceil(Math.random() * 4);
     setImage(`${process.env.PUBLIC_URL}/examples/example${index}.jpg`);
     setTimeout(() => {
       setLoading(false);
-    }, 1000);
+    }, 500);
   }
 
   return (
     <>
       {loading ? <Loading /> : <Loading.ReleaseBody />}
       <Load>
-        {!image ? (
+        <Load.Form encType="multipart/form-data" onSubmit={handleNewSubmit}>
+          <Load.Label htmlFor="img">Dodaj zdjęcie kart</Load.Label>
+          <Load.Input
+            type="file"
+            id="img"
+            name="file"
+            accept="image/png, image/jpeg, image/jpg"
+            onChange={onImageChange}
+          ></Load.Input>
+          {/* <input type="file" id="img" name="file" accept="image/*"></input> */}
+          <input type="submit"></input>
+        </Load.Form>
+
+        {/* {!image ? (
           <Load.Label htmlFor="file-upload">Dodaj zdjęcie kart</Load.Label>
-        ) : null}
+        ) : null} */}
+        {/* <Load.Input
+          id="file-upload"
+          type="file"
+          onChange={onImageChange}
+          accept="image/png, image/jpeg, image/jpg"
+        /> */}
+
         <Load.OptionsContainer image={image}>
-          {image ? (
+          {/* {image ? (
             <Load.SmallLabel htmlFor="file-upload">
               Dodaj nowe zdjęcie
             </Load.SmallLabel>
-          ) : null}
+          ) : null} */}
           <Load.SmallOptionsContainer>
             <Load.Button onClick={onRandomButtonClickChange}>
               Załaduj losowe
@@ -90,12 +109,6 @@ const LoadContainer = () => {
             </Load.GithubLink>
           </Load.SmallOptionsContainer>
         </Load.OptionsContainer>
-        <Load.Input
-          id="file-upload"
-          type="file"
-          onChange={onImageChange}
-          accept="image/png, image/jpeg, image/jpg"
-        />
         {image ? (
           <Load.Image
             src={image}
@@ -131,12 +144,6 @@ const LoadContainer = () => {
         {image ? (
           <Load.Button onClick={handleSubmit}>Uruchom algorytm</Load.Button>
         ) : null}
-        <Link to="/upload">Wynik</Link>
-        <form encType="multipart/form-data" onSubmit={handleNewSubmit}>
-          <label htmlFor="img">Wybierz</label>
-          <input type="file" id="img" name="file" accept="image/*"></input>
-          <input type="submit"></input>
-        </form>
       </Load>
     </>
   );

@@ -33,10 +33,10 @@ export const Label = styled.label`
   border: 1px solid white;
   color: black;
   border-radius: 10px;
-  padding: 20px;
-  margin: 30px;
+  padding: 15px;
+  margin: 20px;
 
-  font-size: 14px;
+  font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 2.5px;
   font-weight: 500;
@@ -61,17 +61,17 @@ export const Label = styled.label`
   @media (max-width: 350px) {
     font-size: 10px;
     padding: 15px;
-    margin: 20px;
+    margin: 15px;
   }
   @media (max-width: 350px) {
     font-size: 10px;
     padding: 15px;
-    margin: 20px;
+    margin: 10px;
   }
   @media (max-width: 300px) {
     font-size: 10px;
     padding: 13px;
-    margin: 15px;
+    margin: 5px;
   }
 `;
 
@@ -183,4 +183,9 @@ export const SmallOptionsContainer = styled.div`
   }
 `;
 
-export const Form = styled.form``;
+export const Form = styled.form`
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;

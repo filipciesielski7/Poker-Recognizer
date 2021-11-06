@@ -47,7 +47,9 @@ Load.SmallOptionsContainer = function LoadSmallOptionsContainer({
   children,
   ...restProps
 }) {
-  return <SmallOptionsContainer {...restProps}>{children}</SmallOptionsContainer>;
+  return (
+    <SmallOptionsContainer {...restProps}>{children}</SmallOptionsContainer>
+  );
 };
 
 Load.GithubLink = function LoadGithubLink({ children, ...restProps }) {
