@@ -23,9 +23,11 @@ def upload():
     filename = data.get('image')[27:]
 
     original = cv2.imread('../public/examples/' + filename)
+
     cv2.imwrite(f"../public/original.jpg", original)
 
     przerobionyObraz = CardRecognition.drawImage(original)
+    przerobionyObraz = cv2.resize(przerobionyObraz, (original.shape[1], original.shape[0]), interpolation = cv2.INTER_CUBIC)
     cv2.imwrite(f"../public/result.jpg", przerobionyObraz)
 
     return {
@@ -40,10 +42,11 @@ def handle_form():
     files = request.files['file']
     npimg = np.fromfile(files, np.uint8)
 
-    original = cv2.imdecode(npimg, cv2.IMREAD_COLOR)
-    cv2.imwrite(f"../public/original.jpg", original)
-
-    przerobionyObraz = CardRecognition.drawImage(original)
+    img1 = cv2.imdecode(npimg, cv2.IMREAD_COLOR)
+    cv2.imwrite(f"../public/original.jpg", img1)
+    przerobionyObraz = CardRecognition.drawImage(img1)
+    przerobionyObraz = cv2.resize(przerobionyObraz, (img1.shape[1], img1.shape[0]), interpolation = cv2.INTER_CUBIC)
+    img2 = cv2.imdecode(npimg, cv2.IMREAD_GRAYSCALE)
     cv2.imwrite(f"../public/result.jpg", przerobionyObraz)
 
     return {
