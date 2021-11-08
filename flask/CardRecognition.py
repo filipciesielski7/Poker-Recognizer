@@ -22,6 +22,219 @@ train_ranks = Cards.load_ranks(path + '/Images/')
 train_colors = Cards.load_colors(path + '/Images/')
 
 
+# Algorytm wyszukujący najlepszy układ w pokerze
+def findSystem(cards_info):
+    ranks = ['Dwojka', 'Trojka', 'Czworka', 'Piatka', 'Szostka', 'Siodemka',
+                    'Osemka', 'Dziewiatka', 'Dziesiatka', 'Walet', 'Dama', 'Krol', 'As']
+    results = []
+    final_result = ""
+    valid = True
+    for i in range(len(cards_info)):
+        if(cards_info[i][0] == "Nieznany" or cards_info[i][1] == "Nieznany"):
+            valid = False
+
+    if(valid):
+        if(len(cards_info) < 7 or len(cards_info) > 7):
+            final_result = "Niewlasciwa ilosc kart"
+        else:
+            for i in range(len(cards_info)):
+                for j in range(len(cards_info)):
+                    temp_cards_info = []
+                    if(i != j):
+                        for k in range(len(cards_info)):
+                            if(k != i and k != j):
+                                temp_cards_info.append(cards_info[k])
+
+                        temp_cards_rank = []
+                        temp_cards_color = []
+                        for m in range(len(temp_cards_info)):
+                            temp_cards_rank.append(temp_cards_info[m][0])
+                            temp_cards_color.append(temp_cards_info[m][1])
+
+                        all_same_color = False
+                        color = ""
+                        for l in range(len(temp_cards_color)):
+                            temp_color = temp_cards_color[l]
+                            number = 0
+                            for v in range(len(temp_cards_color)):
+                                if(l != v):
+                                    if(temp_cards_color[v] == temp_color):
+                                        number += 1
+                            if(number == 4):
+                                color = temp_color
+                                all_same_color = True
+
+                        if(all_same_color):
+                            to_be_added = []
+                            for i in range(len(temp_cards_info)):
+                                if(temp_cards_info[i][1] == color):
+                                    to_be_added.append(temp_cards_info[i])
+                            results.append(["Kolor", to_be_added])
+                        if(ranks[8] in temp_cards_rank and ranks[9] in temp_cards_rank and ranks[10] in temp_cards_rank and ranks[11] in temp_cards_rank and ranks[12] in temp_cards_rank):
+                            if(all_same_color):
+                                to_be_added = []
+                                for i in range(len(temp_cards_info)):
+                                    if(temp_cards_info[i][1] == color):
+                                        to_be_added.append(temp_cards_info[i])
+                                results.append(["Poker Krolewski", to_be_added])
+                        for i in range(8):
+                            if(ranks[i+1] in temp_cards_rank and ranks[i+2] in temp_cards_rank and ranks[i+3] in temp_cards_rank and ranks[i+4] in temp_cards_rank and ranks[i+5] in temp_cards_rank):
+                                if(all_same_color):
+                                    to_be_added = []
+                                    for i in range(len(temp_cards_info)):
+                                        if(temp_cards_info[i][1] == color):
+                                            to_be_added.append(temp_cards_info[i])
+                                    results.append(["Poker", to_be_added])
+                                to_be_added = []
+                                for j in range(len(temp_cards_info)):
+                                    if(temp_cards_info[j][0] == ranks[i+1] or temp_cards_info[j][0] == ranks[i+2] or temp_cards_info[j][0] == ranks[i+3] or temp_cards_info[j][0] == ranks[i+4] or temp_cards_info[j][0] == ranks[i+5]):
+                                        to_be_added.append(temp_cards_info[j])
+                                results.append(["Strit", to_be_added])
+
+                        four_same_rank = False
+                        for n in range(len(temp_cards_rank)):
+                            temp_rank = temp_cards_rank[n]
+                            number = 0
+                            for o in range(len(temp_cards_rank)):
+                                if(n != o):
+                                    if(temp_cards_rank[o] == temp_rank):
+                                        number += 1
+                            if(number == 3):
+                                current_rank = temp_rank
+                                four_same_rank = True
+                            
+                        if(four_same_rank):
+                            results.append(["Kareta", temp_cards_info])
+                            
+                        three_same_rank = False
+                        full_rank = False
+                        for n in range(len(temp_cards_rank)):
+                            temp_rank = temp_cards_rank[n]
+                            number = 0
+                            for o in range(len(temp_cards_rank)):
+                                if(n != o):
+                                    if(temp_cards_rank[o] == temp_rank):
+                                        number += 1
+                            if(number == 2):
+                                three_same_rank = True
+                                for p in range(len(temp_cards_rank)):
+                                    temp_rank2 = temp_cards_rank[p]
+                                    number2 = 0
+                                    for r in range(len(temp_cards_rank)):
+                                        if(r != p):
+                                            if(temp_cards_rank[r] == temp_rank2 and temp_rank2 != temp_rank):
+                                                number2 += 1
+                                    if(number2 == 1):
+                                        full_rank = True
+                            
+                        if(three_same_rank):
+                            results.append(["Trojka", temp_cards_info])
+                        if(full_rank):
+                            results.append(["Full", temp_cards_info])
+
+                        two_same_rank = False
+                        pair = 'undefined'
+                        for t in range(len(temp_cards_rank)):
+                            temp_rank = temp_cards_rank[t]
+                            number = 0
+                            for q in range(len(temp_cards_rank)):
+                                if(t != q):
+                                    if(temp_cards_rank[q] == temp_rank):
+                                        number += 1
+                                        pair = temp_rank
+                            if(number == 1):
+                                two_same_rank = True
+                                results.append(["Para", temp_cards_info])
+
+                        if(two_same_rank):
+                            for e in range(len(temp_cards_rank)):
+                                if(temp_cards_rank[e] != pair):
+                                    temp_rank = temp_cards_rank[e]
+                                    number = 0
+                                    for d in range(len(temp_cards_rank)):
+                                        if(e != d):
+                                            if(temp_cards_rank[d] == temp_rank):
+                                                number += 1
+                                    if(number == 1):
+                                        results.append(["Dwie Pary", temp_cards_info])
+
+        if(results == [] and final_result == ""):
+            to_be_removed = []
+            for i in range(len(cards_info)):
+                temp_card_rank = ranks.index(cards_info[i][0])
+                number = 0
+                for j in range(len(cards_info)):
+                    if(i != j):
+                        if(ranks.index(cards_info[j][0]) > temp_card_rank):
+                            number += 1
+                if(number >= 5):
+                    to_be_removed.append(cards_info[i][0])
+
+            five_cards_list = []
+            for i in range(len(cards_info)):
+                if(cards_info[i] not in to_be_removed):
+                    five_cards_list.append(cards_info[i])
+            results.append(["Wysoka karta", five_cards_list])
+
+        ranking = ["Poker Krolewski", "Poker", "Kareta", "Full", "Kolor", "Strit", "Trojka", "Dwie Pary", "Para", "Wysoka karta"]
+
+
+        results2 = []
+        for i in range(len(ranking)):
+            if(results2 != []):
+                continue
+            else:
+                for j in range(len(results)):
+                    if(results[j][0] == ranking[i]):
+                        results2.append(results[j])
+        
+        combinations = []
+        for i in range(len(results2)):
+            for j in range(len(results2[i][1])):
+                if(len(results2[i][1]) == 5):
+                    combinations.append(results2[i])
+                elif(len(results2[i][1]) == 6):
+                    cards_info = results2[i][1]
+                    index = 0
+                    for l in range(len(cards_info)):
+                        temp_cards_info = []
+                        for m in range(len(cards_info)):
+                            if(m != index):
+                                temp_cards_info.append(cards_info[m])
+                        index += 1
+                        combinations.append([results2[i][0], temp_cards_info])
+                elif(len(results2[i][1]) == 7):
+                    cards_info = results2[i][1]
+                    for l in range(len(cards_info)):
+                        for m in range(len(cards_info)):
+                            temp_cards_info = []
+                            if(l != m):
+                                for k in range(len(cards_info)):
+                                    if(k != l and k != m):
+                                        temp_cards_info.append(cards_info[k])
+                            combinations.append([results2[i][0], temp_cards_info])
+
+        points_array = []
+        for i in range(len(combinations)):
+            points = 0
+            for j in range(len(combinations[i][1])):
+                if(len(combinations[i][1])==5):
+                    for k in range(len(ranks)):
+                        if(combinations[i][1][j][0] == ranks[k]):
+                            points += (k + 1)
+            points_array.append([combinations[i], points])
+        
+        sorted_points_array = sorted(points_array, key=lambda x: x[1], reverse=True)
+        # print(sorted_points_array[0])
+
+        if(final_result != "Niewlasciwa ilosc kart"):
+           final_result = results2[0][0]
+    else:
+        final_result = "Nie odczytano poprawnie wszystkich kart"
+    return final_result
+
+
+# Funkcja zwracajaca informacje o przerobionym obrazie wejściowym
 def drawImage(img):
     global frame_rate_calc
     dim = (IM_WIDTH, IM_HEIGHT)
@@ -58,160 +271,12 @@ def drawImage(img):
                 cards_info.append([rank_name, color_name])
                 k += 1
 
-        # Algorytm wyszukujący najlepszy układ w pokerze
-        ranks = ['Dwojka', 'Trojka', 'Czworka', 'Piatka', 'Szostka', 'Siodemka',
-                 'Osemka', 'Dziewiatka', 'Dziesiatka', 'Walet', 'Dama', 'Krol', 'As']
-        results = []
-        final_result = ""
-        valid = True
-        for i in range(len(cards_info)):
-            if(cards_info[i][0] == "Nieznany" or cards_info[i][1] == "Nieznany"):
-                valid = False
-
-        if(valid):
-            if(len(cards_info) < 7 or len(cards_info) > 7):
-                final_result = "Niewłaściwa ilość kart"
-            else:
-                for i in range(len(cards_info)):
-                    for j in range(len(cards_info)):
-                        temp_cards_info = []
-                        if(i != j):
-                            for k in range(len(cards_info)):
-                                if(k != i and k != j):
-                                    temp_cards_info.append(cards_info[k])
-
-                            temp_cards_rank = []
-                            temp_cards_color = []
-                            for m in range(len(temp_cards_info)):
-                                temp_cards_rank.append(temp_cards_info[m][0])
-                                temp_cards_color.append(temp_cards_info[m][1])
-
-                            all_same_color = False
-                            for l in range(len(temp_cards_color)):
-                                temp_color = temp_cards_color[l]
-                                number = 0
-                                for v in range(len(temp_cards_color)):
-                                    if(l != v):
-                                        if(temp_cards_color[v] == temp_color):
-                                            number += 1
-                                if(number == 4):   
-                                    all_same_color = True
-
-                            if(all_same_color):
-                                results.append(["Kolor", temp_cards_info])
-                            if(ranks[8] in temp_cards_rank and ranks[9] in temp_cards_rank and ranks[10] in temp_cards_rank and ranks[11] in temp_cards_rank and ranks[12] in temp_cards_rank):
-                                if(all_same_color):
-                                    results.append(["Poker Królewski", temp_cards_info])
-                            for i in range(8):
-                                if(ranks[i+1] in temp_cards_rank and ranks[i+2] in temp_cards_rank and ranks[i+3] in temp_cards_rank and ranks[i+4] in temp_cards_rank and ranks[i+5] in temp_cards_rank):
-                                    if(all_same_color):
-                                            results.append(["Poker", temp_cards_info])
-                                    results.append(["Strit", temp_cards_info])
-
-                            four_same_rank = False
-                            for n in range(len(temp_cards_rank)):
-                                temp_rank = temp_cards_rank[n]
-                                number = 0
-                                for o in range(len(temp_cards_rank)):
-                                    if(n != o):
-                                        if(temp_cards_rank[o] == temp_rank):
-                                            number += 1
-                                if(number == 3):
-                                    four_same_rank = True
-                            
-                            if(four_same_rank):
-                                results.append(["Kareta", temp_cards_info])
-                            
-                            three_same_rank = False
-                            full_rank = False
-                            for n in range(len(temp_cards_rank)):
-                                temp_rank = temp_cards_rank[n]
-                                number = 0
-                                for o in range(len(temp_cards_rank)):
-                                    if(n != o):
-                                        if(temp_cards_rank[o] == temp_rank):
-                                            number += 1
-                                if(number == 2):
-                                    three_same_rank = True
-                                    for p in range(len(temp_cards_rank)):
-                                        temp_rank2 = temp_cards_rank[p]
-                                        number2 = 0
-                                        for r in range(len(temp_cards_rank)):
-                                            if(r != p):
-                                                if(temp_cards_rank[r] == temp_rank2 and temp_rank2 != temp_rank):
-                                                    number2 += 1
-                                        if(number2 == 1):
-                                            full_rank = True
-                            
-                            if(three_same_rank):
-                                results.append(["Trójka", temp_cards_info])
-                            if(full_rank):
-                                results.append(["Full", temp_cards_info])
-
-                            two_same_rank = False
-                            pair = 'undefined'
-                            for t in range(len(temp_cards_rank)):
-                                temp_rank = temp_cards_rank[t]
-                                number = 0
-                                for q in range(len(temp_cards_rank)):
-                                    if(t != q):
-                                        if(temp_cards_rank[q] == temp_rank):
-                                            number += 1
-                                            pair = temp_rank
-                                if(number == 1):
-                                    two_same_rank = True
-                                    results.append(["Para", temp_cards_info])
-
-                            if(two_same_rank):
-                                for e in range(len(temp_cards_rank)):
-                                    if(temp_cards_rank[e] != pair):
-                                        temp_rank = temp_cards_rank[e]
-                                        number = 0
-                                        for d in range(len(temp_cards_rank)):
-                                            if(e != d):
-                                                if(temp_cards_rank[d] == temp_rank):
-                                                    number += 1
-                                        if(number == 1):
-                                            results.append(["Dwie Pary", temp_cards_info])
-
-            if(results == []):
-                to_be_removed = []
-                for i in range(len(cards_info)):
-                    temp_card_rank = ranks.index(cards_info[i][0])
-                    number = 0
-                    for j in range(len(cards_info)):
-                        if(i != j):
-                            if(ranks.index(cards_info[j][0]) > temp_card_rank):
-                                number += 1
-                    if(number >= 5):
-                        to_be_removed.append(cards_info[i][0])
-
-                five_cards_list = []
-                for i in range(len(cards_info)):
-                    if(cards_info[i] not in to_be_removed):
-                        five_cards_list.append(cards_info[i])
-                results.append(["Wysoka karta", five_cards_list])
-
-            ranking = ["Poker Królewski", "Poker", "Kareta", "Full", "Kolor", "Strit", "Trójka", "Dwie Pary", "Para", "Wysoka karta"]
-            results2 = []
-            for i in range(len(ranking)):
-                if(results2 != []):
-                    continue
-                else:
-                    for j in range(len(results)):
-                        if(results[j][0] == ranking[i]):
-                            results2.append(results[j])
-                
-            final_result = results2[0][0]
-        else:
-            final_result = "Nie odczytano poprawnie wszystkich kart"
-        
-        print(final_result)
+        # Wykorzystanie algorytmu wyszukującego najlepszy układ w pokerze
+        final_result = findSystem(cards_info)
 
         # Wypisanie najlepszej mozliwej kombinacji podanych kart
-        # if(final_result != "Niewłaściwa ilość kart"):
-        #     cv2.putText(image, final_result, (IM_WIDTH/2, IM_HEIGHT/2), font, 1, (0, 0, 0), 3, cv2.LINE_AA)
-        #     cv2.putText(image, final_result, (IM_WIDTH/2, IM_HEIGHT/2), font, 1, (255, 255, 0), 2, cv2.LINE_AA)
+        cv2.putText(image, final_result, (5, IM_HEIGHT//2 - 305), font, 1.95, (0, 0, 0), 3, cv2.LINE_AA)
+        cv2.putText(image, final_result, (5, IM_HEIGHT//2 - 305), font, 1.95, (255, 255, 255), 2, cv2.LINE_AA)
 
         # Narysowanie konturu na wejściowym obrazku
         if (len(cards) != 0):
