@@ -4,7 +4,6 @@ import time
 import os
 import Cards
 
-
 # Wymiary obrazu
 IM_WIDTH = 1280
 IM_HEIGHT = 720
@@ -28,6 +27,7 @@ def findSystem(cards_info):
                     'Osemka', 'Dziewiatka', 'Dziesiatka', 'Walet', 'Dama', 'Krol', 'As']
     results = []
     final_result = ""
+
     valid = True
     for i in range(len(cards_info)):
         if(cards_info[i][0] == "Nieznany" or cards_info[i][1] == "Nieznany"):
@@ -104,10 +104,26 @@ def findSystem(cards_info):
                                 four_same_rank = True
                             
                         if(four_same_rank):
-                            results.append(["Kareta", temp_cards_info])
+                            to_be_added = []
+                            best_rank = 0
+                            index = -1
+                            for i in range(len(temp_cards_info)):
+                                if(temp_cards_info[i][0] == current_rank):
+                                    to_be_added.append(temp_cards_info[i])
+                                else:
+                                    for j in range(len(ranks)):
+                                        if(ranks[j] == temp_cards_info[i][0]):
+                                            if(j >= best_rank):
+                                                best_rank = j
+                                                index = i
+
+                            to_be_added.append(temp_cards_info[index])
+                            results.append(["Kareta", to_be_added])
                             
                         three_same_rank = False
                         full_rank = False
+                        current_rank = ""
+                        current_rank2 = ""
                         for n in range(len(temp_cards_rank)):
                             temp_rank = temp_cards_rank[n]
                             number = 0
@@ -115,6 +131,7 @@ def findSystem(cards_info):
                                 if(n != o):
                                     if(temp_cards_rank[o] == temp_rank):
                                         number += 1
+                                        current_rank = temp_rank
                             if(number == 2):
                                 three_same_rank = True
                                 for p in range(len(temp_cards_rank)):
@@ -124,16 +141,48 @@ def findSystem(cards_info):
                                         if(r != p):
                                             if(temp_cards_rank[r] == temp_rank2 and temp_rank2 != temp_rank):
                                                 number2 += 1
+                                                current_rank2 = temp_rank2
                                     if(number2 == 1):
                                         full_rank = True
                             
+                        to_be_added = []
+                        best_rank = 0
+                        index = -1
                         if(three_same_rank):
-                            results.append(["Trojka", temp_cards_info])
-                        if(full_rank):
-                            results.append(["Full", temp_cards_info])
+                            for i in range(len(temp_cards_info)):
+                                if(temp_cards_info[i][0] == current_rank):
+                                    to_be_added.append(temp_cards_info[i])
+                                else:
+                                    for j in range(len(ranks)):
+                                        if(ranks[j] == temp_cards_info[i][0]):
+                                            if(j >= best_rank):
+                                                best_rank = j
+                                                index = i
+                            to_be_added.append(temp_cards_info[index])
 
+                            best_rank2 = 0
+                            index2 = -1
+                            for i in range(len(temp_cards_info)):
+                                for j in range(len(ranks)):
+                                        if(ranks[j] == temp_cards_info[i][0] and temp_cards_info[i] not in to_be_added):
+                                                if(j >= best_rank2):
+                                                    best_rank2 = j
+                                                    index2 = i
+                            to_be_added.append(temp_cards_info[index2])
+                            results.append(["Trojka", to_be_added])
+
+                        to_be_added = []
+                        if(full_rank):
+                            for i in range(len(temp_cards_info)):
+                                    if(temp_cards_info[i][0] == current_rank):
+                                        to_be_added.append(temp_cards_info[i])
+                            for i in range(len(temp_cards_info)):
+                                if(temp_cards_info[i][0] == current_rank2):
+                                    to_be_added.append(temp_cards_info[i])
+                            results.append(["Full", to_be_added])
+                      
                         two_same_rank = False
-                        pair = 'undefined'
+                        pair = ""
                         for t in range(len(temp_cards_rank)):
                             temp_rank = temp_cards_rank[t]
                             number = 0
@@ -144,8 +193,9 @@ def findSystem(cards_info):
                                         pair = temp_rank
                             if(number == 1):
                                 two_same_rank = True
-                                results.append(["Para", temp_cards_info])
 
+                        double_pair = ""
+                        double = False
                         if(two_same_rank):
                             for e in range(len(temp_cards_rank)):
                                 if(temp_cards_rank[e] != pair):
@@ -155,8 +205,44 @@ def findSystem(cards_info):
                                         if(e != d):
                                             if(temp_cards_rank[d] == temp_rank):
                                                 number += 1
+                                                double_pair = temp_rank
                                     if(number == 1):
-                                        results.append(["Dwie Pary", temp_cards_info])
+                                        double = True
+
+                        to_be_added = []
+                        if(two_same_rank):
+                            for i in range(len(temp_cards_info)):
+                                if(temp_cards_info[i][0] == pair):
+                                    to_be_added.append(temp_cards_info[i])
+                            if(double):
+                                for j in range(len(temp_cards_info)):
+                                    if(temp_cards_info[j][0] == double_pair):
+                                        to_be_added.append(temp_cards_info[j])
+
+                        if(two_same_rank):
+                            if(double):
+                                best_rank = 0
+                                index = -1
+                                for i in range(len(temp_cards_info)):
+                                    for j in range(len(ranks)):
+                                        if(ranks[j] == temp_cards_info[i][0] and temp_cards_info[i] not in to_be_added):
+                                            if(j >= best_rank):
+                                                best_rank = j
+                                                index = i
+                                to_be_added.append(temp_cards_info[index])
+                                results.append(["Dwie Pary", to_be_added])
+                            else:
+                                for i in range(3):
+                                    best_rank = 0
+                                    index = -1
+                                    for i in range(len(temp_cards_info)):
+                                        for j in range(len(ranks)):
+                                            if(ranks[j] == temp_cards_info[i][0] and temp_cards_info[i] not in to_be_added):
+                                                if(j >= best_rank):
+                                                    best_rank = j
+                                                    index = i
+                                    to_be_added.append(temp_cards_info[index])
+                                results.append(["Para", to_be_added])
 
         if(results == [] and final_result == ""):
             to_be_removed = []
@@ -177,7 +263,6 @@ def findSystem(cards_info):
             results.append(["Wysoka karta", five_cards_list])
 
         ranking = ["Poker Krolewski", "Poker", "Kareta", "Full", "Kolor", "Strit", "Trojka", "Dwie Pary", "Para", "Wysoka karta"]
-
 
         results2 = []
         for i in range(len(ranking)):
@@ -225,13 +310,13 @@ def findSystem(cards_info):
             points_array.append([combinations[i], points])
         
         sorted_points_array = sorted(points_array, key=lambda x: x[1], reverse=True)
-        # print(sorted_points_array[0])
+        combination = sorted_points_array[0][0][1]
 
         if(final_result != "Niewlasciwa ilosc kart"):
            final_result = results2[0][0]
     else:
         final_result = "Nie odczytano poprawnie wszystkich kart"
-    return final_result
+    return final_result, combination
 
 
 # Funkcja zwracajaca informacje o przerobionym obrazie wejściowym
@@ -272,7 +357,8 @@ def drawImage(img):
                 k += 1
 
         # Wykorzystanie algorytmu wyszukującego najlepszy układ w pokerze
-        final_result = findSystem(cards_info)
+        final_result, combination = findSystem(cards_info)
+        print(combination)
 
         # Wypisanie najlepszej mozliwej kombinacji podanych kart
         cv2.putText(image, final_result, (5, IM_HEIGHT//2 - 305), font, 1.95, (0, 0, 0), 3, cv2.LINE_AA)
