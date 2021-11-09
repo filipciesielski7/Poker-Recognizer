@@ -257,17 +257,17 @@ def draw_results(image, qCard):
 
     x = qCard.center[0]
     y = qCard.center[1]
-    cv2.circle(image, (x, y), 5, (255, 0, 0), -1)
+    # cv2.circle(image, (x, y), 5, (255, 0, 0), -1)
 
     rank_name = qCard.best_rank_match
     color_name = qCard.best_color_match
 
     # Wypisanie nazwy dwukrotnie w celu pozostawienia czarnego konturu napisu 
-    cv2.putText(image, rank_name, (x - 60, y - 10), font, 1, (0, 0, 0), 3, cv2.LINE_AA)
-    cv2.putText(image, rank_name, (x - 60, y - 10), font, 1, (255, 255, 0), 2, cv2.LINE_AA)
+    cv2.putText(image, rank_name, (x - 60, y - 10), font, 1, (0, 0, 0), 4, cv2.LINE_AA)
+    cv2.putText(image, rank_name, (x - 60, y - 10), font, 1, (0, 255, 0), 2, cv2.LINE_AA)
 
     cv2.putText(image, color_name, (x - 60, y + 25), font, 1, (0, 0, 0), 3, cv2.LINE_AA)
-    cv2.putText(image, color_name, (x - 60, y + 25), font, 1, (255, 255, 0), 2, cv2.LINE_AA)
+    cv2.putText(image, color_name, (x - 60, y + 25), font, 1, (0, 255, 0), 2, cv2.LINE_AA)
 
     return image, rank_name, color_name
 
