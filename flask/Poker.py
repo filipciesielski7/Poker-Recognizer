@@ -99,6 +99,8 @@ def findSystem(cards_info):
                         
                         three_same_rank = False
                         full_rank = False
+                        three_rank = ""
+                        full_rank_value =""
                         for n in range(len(temp_cards_rank)):
                             temp_rank = temp_cards_rank[n]
                             number = 0
@@ -107,6 +109,7 @@ def findSystem(cards_info):
                                     if(temp_cards_rank[o] == temp_rank):
                                         number += 1
                             if(number == 2):
+                                three_rank = temp_rank
                                 three_same_rank = True
                                 for p in range(len(temp_cards_rank)):
                                     temp_rank2 = temp_cards_rank[p]
@@ -116,74 +119,39 @@ def findSystem(cards_info):
                                             if(temp_cards_rank[r] == temp_rank2 and temp_rank2 != temp_rank):
                                                 number2 += 1
                                     if(number2 == 1):
+                                        full_rank_value = temp_rank2
                                         full_rank = True
                             
                         if(three_same_rank):
-                            results.append(["Trojka", temp_cards_info])
+                            to_be_added = []
+                            for n in range(len(temp_cards_info)):
+                                if(temp_cards_info[n][0] == three_rank):
+                                    to_be_added.append(temp_cards_info[n])
+
+                            for k in range(2):
+                                index = -1
+                                best_rank = 0
+                                for p in range(len(temp_cards_info)):
+                                    for q in range(len(ranks)):
+                                        if(ranks[q] == temp_cards_info[p][0] and temp_cards_info[p] not in to_be_added):
+                                            if(q >= best_rank):
+                                                best_rank = q
+                                                index = p
+                                to_be_added.append(temp_cards_info[index])
+
+                            results.append(["Trojka", to_be_added])
                         if(full_rank):
-                            results.append(["Full", temp_cards_info])
+                            to_be_added = []
+                            for n in range(len(temp_cards_info)):
+                                if(temp_cards_info[n][0] == three_rank):
+                                    to_be_added.append(temp_cards_info[n])
                             
-                        # three_same_rank = False
-                        # full_rank = False
-                        # current_rank = ""
-                        # current_rank2 = ""
-                        # print(temp_cards_info)
-                        # for n in range(len(temp_cards_rank)):
-                        #     temp_rank = temp_cards_rank[n]
-                        #     number = 0
-                        #     for o in range(len(temp_cards_rank)):
-                        #         if(n != o):
-                        #             if(temp_cards_rank[o] == temp_rank):
-                        #                 number += 1
-                        #                 current_rank = temp_rank
-                        #     if(number == 2):
-                        #         three_same_rank = True
-
-                        # if(three_same_rank):
-                        #     for p in range(len(temp_cards_rank)):
-                        #         temp_rank2 = temp_cards_rank[p]
-                        #         number2 = 0
-                        #         for r in range(len(temp_cards_rank)):
-                        #             if(r != p):
-                        #                 if(temp_cards_rank[r] == temp_rank2 and temp_rank2 != temp_rank):
-                        #                     number2 += 1
-                        #                     current_rank2 = temp_rank2
-                        #         if(number2 == 1):
-                        #             full_rank = True
+                            for n in range(len(temp_cards_info)):
+                                if(temp_cards_info[n][0] == full_rank_value):
+                                    to_be_added.append(temp_cards_info[n])
                             
-                        # to_be_added = []
-                        # best_rank = 0
-                        # index = -1
-                        # if(three_same_rank):
-                        #     for i in range(len(temp_cards_info)):
-                        #         if(temp_cards_info[i][0] == current_rank):
-                        #             to_be_added.append(temp_cards_info[i])
-                        #         else:
-                        #             for j in range(len(ranks)):
-                        #                 if(ranks[j] == temp_cards_info[i][0]):
-                        #                     if(j >= best_rank):
-                        #                         best_rank = j
-                        #                         index = i
-                        #     to_be_added.append(temp_cards_info[index])
-
-                        #     best_rank2 = 0
-                        #     index2 = -1
-                        #     for i in range(len(temp_cards_info)):
-                        #         for j in range(len(ranks)):
-                        #                 if(ranks[j] == temp_cards_info[i][0] and temp_cards_info[i] not in to_be_added):
-                        #                         if(j >= best_rank2):
-                        #                             best_rank2 = j
-                        #                             index2 = i
-                        #     to_be_added.append(temp_cards_info[index2])
-                        #     results.append(["Trojka", to_be_added])
-
-                        # to_be_added = []
-                        # if(full_rank):
-                        #     for i in range(len(temp_cards_info)):
-                        #             if(temp_cards_info[i][0] == current_rank or temp_cards_info[i][0] == current_rank2):
-                        #                 to_be_added.append(temp_cards_info[i])
-                        #     results.append(["Full", to_be_added])
-                      
+                            results.append(["Full", to_be_added])
+                            
                         two_same_rank = False
                         pair = ""
                         for t in range(len(temp_cards_rank)):
