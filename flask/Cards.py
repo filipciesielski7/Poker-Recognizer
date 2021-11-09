@@ -271,6 +271,17 @@ def draw_results(image, qCard):
 
     return image, rank_name, color_name
 
+# Funkcja pogrubiajaca czcionke nazw kart należących do układu
+def thickBestSystem(image, qCard):
+    x = qCard.center[0]
+    y = qCard.center[1]
+
+    rank_name = qCard.best_rank_match
+    color_name = qCard.best_color_match
+
+    cv2.putText(image, rank_name, (x - 60, y - 10), font, 1, (0, 255, 0), 4, cv2.LINE_AA)
+    cv2.putText(image, color_name, (x - 60, y + 25), font, 1, (0, 255, 0), 4, cv2.LINE_AA)
+
 # Spłaszczenie i wyszarzenie obrazu do wymiarów 200x300 do perspektywy góra-dół - www.pyimagesearch.com/2014/08/25/4-point-opencv-getperspective-transform-example/
 def flattener(image, points, w, h):
     rect = np.zeros((4, 2), dtype="float32")

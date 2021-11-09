@@ -21,6 +21,13 @@ path = os.path.dirname(os.path.abspath(__file__))
 train_ranks = Cards.load_ranks(path + '/Images/')
 train_colors = Cards.load_colors(path + '/Images/')
 
+# Funkcja sprawdzająca czy karta należy do systemu
+def isInSystem(rank, color, combination):
+    for c in combination:
+        if rank == c[0] and color == c[1]:
+            return True
+    return False
+
 # Funkcja zwracajaca informacje o przerobionym obrazie wejściowym
 def drawImage(img):
     global frame_rate_calc
@@ -61,18 +68,26 @@ def drawImage(img):
         # Wykorzystanie algorytmu wyszukującego najlepszy układ w pokerze
         final_result, combination = Poker.findSystem(cards_info)
 
-        print(combination) # Wykorzystać znalezioną kombinacje kart do zaznaczenia na obrazku wynikowym
-
         # Wypisanie najlepszej mozliwej kombinacji podanych kart
         cv2.putText(image, final_result, (5, IM_HEIGHT//2 - 305), font, 1.95, (0, 0, 0), 3, cv2.LINE_AA)
         cv2.putText(image, final_result, (5, IM_HEIGHT//2 - 305), font, 1.95, (255, 255, 255), 2, cv2.LINE_AA)
 
-        # Narysowanie konturu na wejściowym obrazku
+        # Narysowanie konturu na wejściowym obrazku (zielony dla kart nalezacych do ukladu, czerwony dla innych)
         if (len(cards) != 0):
             temp_cnts = []
+            temp_cnts_red = []
             for i in range(len(cards)):
-                temp_cnts.append(cards[i].contour)
+                if isInSystem(cards[i].best_rank_match, cards[i].best_color_match, combination):
+                    temp_cnts.append(cards[i].contour)
+                else:
+                    temp_cnts_red.append(cards[i].contour)
+            cv2.drawContours(image, temp_cnts_red, -1, (0, 0, 255), 2)
             cv2.drawContours(image, temp_cnts, -1, (0, 255, 0), 2)
+
+        # Sprawdzenie, które karty należą do układu i pogrubienie czcionki ich nazw
+        for card in cards:
+            if isInSystem(card.best_rank_match, card.best_color_match, combination):
+                Cards.thickBestSystem(image, card)
 
     # Zwrócenie obrazka ze znalezionymi kartami
     return image
