@@ -264,10 +264,10 @@ def draw_results(image, qCard):
 
     # Wypisanie nazwy dwukrotnie w celu pozostawienia czarnego konturu napisu 
     cv2.putText(image, rank_name, (x - 60, y - 10), font, 1, (0, 0, 0), 4, cv2.LINE_AA)
-    cv2.putText(image, rank_name, (x - 60, y - 10), font, 1, (0, 255, 0), 2, cv2.LINE_AA)
+    cv2.putText(image, rank_name, (x - 60, y - 10), font, 1, (0, 0, 139), 2, cv2.LINE_AA)
 
     cv2.putText(image, color_name, (x - 60, y + 25), font, 1, (0, 0, 0), 3, cv2.LINE_AA)
-    cv2.putText(image, color_name, (x - 60, y + 25), font, 1, (0, 255, 0), 2, cv2.LINE_AA)
+    cv2.putText(image, color_name, (x - 60, y + 25), font, 1, (0, 0, 139), 2, cv2.LINE_AA)
 
     return image, rank_name, color_name
 
@@ -279,8 +279,11 @@ def thickBestSystem(image, qCard):
     rank_name = qCard.best_rank_match
     color_name = qCard.best_color_match
 
-    cv2.putText(image, rank_name, (x - 60, y - 10), font, 1, (0, 255, 0), 4, cv2.LINE_AA)
-    cv2.putText(image, color_name, (x - 60, y + 25), font, 1, (0, 255, 0), 4, cv2.LINE_AA)
+    cv2.putText(image, rank_name, (x - 60, y - 10), font, 1, (0, 0, 0), 7, cv2.LINE_AA)
+    cv2.putText(image, rank_name, (x - 60, y - 10), font, 1, (255, 255, 255), 4, cv2.LINE_AA)
+
+    cv2.putText(image, color_name, (x - 60, y + 25), font, 1, (0, 0, 0), 7, cv2.LINE_AA)
+    cv2.putText(image, color_name, (x - 60, y + 25), font, 1, (255, 255, 255), 4, cv2.LINE_AA)
 
 # Spłaszczenie i wyszarzenie obrazu do wymiarów 200x300 do perspektywy góra-dół - www.pyimagesearch.com/2014/08/25/4-point-opencv-getperspective-transform-example/
 def flattener(image, points, w, h):

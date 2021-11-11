@@ -81,8 +81,8 @@ def drawImage(img):
                     temp_cnts.append(cards[i].contour)
                 else:
                     temp_cnts_red.append(cards[i].contour)
-            cv2.drawContours(image, temp_cnts_red, -1, (0, 0, 255), 2)
-            cv2.drawContours(image, temp_cnts, -1, (0, 255, 0), 2)
+            cv2.drawContours(image, temp_cnts_red, -1, (0, 0, 139), 2)
+            cv2.drawContours(image, temp_cnts, -1, (0, 153, 0), 3)
 
         # Sprawdzenie, które karty należą do układu i pogrubienie czcionki ich nazw
         for card in cards:
