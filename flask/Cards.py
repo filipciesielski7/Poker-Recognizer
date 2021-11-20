@@ -35,11 +35,12 @@ font = cv2.FONT_HERSHEY_SIMPLEX
 # Klasy przechowujące kolejkę kart do sprawdzenia oraz informacje o przechowywanych kolorach i rangach w folderze Images, które porównujemy
 
 # Klasa przechowująca informacje o kolejce kart do sprawdzenia
-class Query_card:
+class Card:
 
     def __init__(self):
         self.contour = []  # Kontury karty
-        self.width, self.height = 0, 0  # Szerokość i wysokość karty
+        self.width  = 0  # Szerokość karty
+        self.height = 0 # Wysokość karty
         self.corner_pts = []  # Punkty w narożnikach karty
         self.center = []  # Centroid karty
         self.warp = []  # Współrzędne spłaszczonego, wyszarzonego i zamazanego wejściowego obrazu o wymiarach 200x300
@@ -112,7 +113,7 @@ def preprocess_image(image):
 
     do_nothing, thresh = cv2.threshold(blurred, thresh_level, 255, cv2.THRESH_BINARY)
 
-    return thresh
+    return grayed, blurred, thresh
 
 # Funkcja znajdująca kontury kart w progowanym obrazie zwracająca posortowaną listę konturów oraz listę identyfikującą, które kontury mogą być kartami 
 def find_cards(thresh_image):
@@ -153,29 +154,29 @@ def find_cards(thresh_image):
 # Uzycie konturow do znalezienia informacji o kartach, oddzielenie rangi i koloru od karty
 def preprocess_card(contour, image):
 
-    qCard = Query_card()
+    card = Card()
 
-    qCard.contour = contour
+    card.contour = contour
 
     # Znalezienie obwodu karty do wykrycia rogów
     perimeter = cv2.arcLength(contour, True)
     approx = cv2.approxPolyDP(contour, 0.01 * perimeter, True)
     points = np.float32(approx)
-    qCard.corner_pts = points
+    card.corner_pts = points
 
     # Znalezienie wysokości i szerokości karty
     x, y, w, h = cv2.boundingRect(contour)
-    qCard.width, qCard.height = w, h
+    card.width, card.height = w, h
 
     # Znalezienie punktu środkowego karty poprzez znalezienie średniej po współrzędnych punktów w rogach
     average = np.sum(points, axis=0) / len(points)
-    qCard.center = [int(average[0][0]), int(average[0][1])]
+    card.center = [int(average[0][0]), int(average[0][1])]
 
     # Spłaszczenie oraz zmiana wymiarów karty do 200x300
-    qCard.warp = flattener(image, points, w, h)
+    card.warp = flattener(image, points, w, h)
 
     # Czterokrotne przybliżenie do rogu karty
-    Qcorner = qCard.warp[0:CARDS_HEIGHT, 0:CARDS_WIDTH]
+    Qcorner = card.warp[0:CARDS_HEIGHT, 0:CARDS_WIDTH]
     Qcorner_zoom = cv2.resize(Qcorner, (0, 0), fx=4, fy=4)
 
     # Znalezienie odpowiedniego poziomu progowania
@@ -198,7 +199,7 @@ def preprocess_card(contour, image):
         x1, y1, w1, h1 = cv2.boundingRect(Qrank_cnts[0])
         Qrank_roi = Qrank[y1:y1 + h1, x1:x1 + w1]
         Qrank_sized = cv2.resize(Qrank_roi, (RANKS_WIDTH, RANKS_HEIGHT), 0, 0)
-        qCard.rank_img = Qrank_sized
+        card.rank_img = Qrank_sized
 
     # # Znalezienie konturu koloru, prostokątu ograniczającego i największego konturu
     Qcolor_cnts, hier = cv2.findContours(Qcolor, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
@@ -209,12 +210,12 @@ def preprocess_card(contour, image):
         x2, y2, w2, h2 = cv2.boundingRect(Qcolor_cnts[0])
         Qcolor_roi = Qcolor[y2:y2 + h2, x2:x2 + w2]
         Qcolor_sized = cv2.resize(Qcolor_roi, (COLORS_WIDTH, COLORS_HEIGHT), 0, 0)
-        qCard.color_img = Qcolor_sized
+        card.color_img = Qcolor_sized
 
-    return qCard
+    return card
 
 # Znalezienie najlepszej rangi i koloru dla karty z kolejki.
-def match_card(qCard, train_ranks, train_colors):
+def match_card(card, train_ranks, train_colors):
 
     best_rank_match_diff = 10000
     best_color_match_diff = 10000
@@ -222,12 +223,12 @@ def match_card(qCard, train_ranks, train_colors):
     best_color_match_name = "Nieznany"
 
     # Jeśli nie ma znalezionych konturów z funkcji preprocess_card, zakończ przetwarzanie
-    if (len(qCard.rank_img) != 0) and (len(qCard.color_img) != 0):
+    if (len(card.rank_img) != 0) and (len(card.color_img) != 0):
 
         # Znalezienie najmniej różniącej się rangi i koloru z folderu Image od odciętej karty
         for train in train_ranks:
 
-            diff_img = cv2.absdiff(qCard.rank_img, train.img)
+            diff_img = cv2.absdiff(card.rank_img, train.img)
             rank_diff = int(np.sum(diff_img) / 255)
 
             if rank_diff < best_rank_match_diff:
@@ -236,7 +237,7 @@ def match_card(qCard, train_ranks, train_colors):
 
         for color in train_colors:
 
-            diff_img = cv2.absdiff(qCard.color_img, color.img)
+            diff_img = cv2.absdiff(card.color_img, color.img)
             color_diff = int(np.sum(diff_img) / 255)
 
             if color_diff < best_color_match_diff:
@@ -252,15 +253,19 @@ def match_card(qCard, train_ranks, train_colors):
 
     return best_rank_match_name, best_color_match_name, best_rank_match_diff, best_color_match_diff
 
-# Rysowanie nazwy karty, centoidu i konturów
-def draw_results(image, qCard):
 
-    x = qCard.center[0]
-    y = qCard.center[1]
+# Rysowanie nazwy karty, centoidu i konturów
+def draw_results(image, card):
+
+    x = card.center[0]
+    y = card.center[1]
     # cv2.circle(image, (x, y), 5, (255, 0, 0), -1)
 
-    rank_name = qCard.best_rank_match
-    color_name = qCard.best_color_match
+    rank_name = card.best_rank_match
+    color_name = card.best_color_match
+
+    font = cv2.FONT_HERSHEY_COMPLEX 
+    
 
     # Wypisanie nazwy dwukrotnie w celu pozostawienia czarnego konturu napisu 
     cv2.putText(image, rank_name, (x - 60, y - 10), font, 1, (0, 0, 0), 4, cv2.LINE_AA)
@@ -272,12 +277,14 @@ def draw_results(image, qCard):
     return image, rank_name, color_name
 
 # Funkcja pogrubiajaca czcionke nazw kart należących do układu
-def thickBestSystem(image, qCard):
-    x = qCard.center[0]
-    y = qCard.center[1]
+def thickBestSystem(image, card):
+    x = card.center[0]
+    y = card.center[1]
 
-    rank_name = qCard.best_rank_match
-    color_name = qCard.best_color_match
+    rank_name = card.best_rank_match
+    color_name = card.best_color_match
+
+    font = cv2.FONT_HERSHEY_COMPLEX 
 
     cv2.putText(image, rank_name, (x - 60, y - 10), font, 1, (0, 0, 0), 7, cv2.LINE_AA)
     cv2.putText(image, rank_name, (x - 60, y - 10), font, 1, (255, 255, 255), 4, cv2.LINE_AA)

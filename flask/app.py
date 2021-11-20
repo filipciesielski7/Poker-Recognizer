@@ -26,7 +26,14 @@ def upload():
 
     cv2.imwrite(f"../public/original.jpg", original)
 
-    przerobionyObraz = CardRecognition.drawImage(original)
+    grayed, blurred, pre_processed, przerobionyObraz = CardRecognition.drawImage(original)
+    pre_processed = cv2.resize(pre_processed, (original.shape[1], original.shape[0]), interpolation = cv2.INTER_CUBIC)
+    grayed = cv2.resize(grayed, (original.shape[1], original.shape[0]), interpolation = cv2.INTER_CUBIC)
+    blurred = cv2.resize(blurred, (original.shape[1], original.shape[0]), interpolation = cv2.INTER_CUBIC)
+    cv2.imwrite(f"../public/grayed.jpg", grayed)
+    cv2.imwrite(f"../public/blurred.jpg", blurred)
+    cv2.imwrite(f"../public/pre_process.jpg", pre_processed)
+ 
     przerobionyObraz = cv2.resize(przerobionyObraz, (original.shape[1], original.shape[0]), interpolation = cv2.INTER_CUBIC)
     cv2.imwrite(f"../public/result.jpg", przerobionyObraz)
 
@@ -44,9 +51,16 @@ def handle_form():
 
     img1 = cv2.imdecode(npimg, cv2.IMREAD_COLOR)
     cv2.imwrite(f"../public/original.jpg", img1)
-    przerobionyObraz = CardRecognition.drawImage(img1)
+    grayed, blurred, pre_processed, przerobionyObraz = CardRecognition.drawImage(img1)
+    pre_processed = cv2.resize(pre_processed, (original.shape[1], original.shape[0]), interpolation = cv2.INTER_CUBIC)
+    grayed = cv2.resize(grayed, (original.shape[1], original.shape[0]), interpolation = cv2.INTER_CUBIC)
+    blurred = cv2.resize(blurred, (original.shape[1], original.shape[0]), interpolation = cv2.INTER_CUBIC)
+
     przerobionyObraz = cv2.resize(przerobionyObraz, (img1.shape[1], img1.shape[0]), interpolation = cv2.INTER_CUBIC)
     img2 = cv2.imdecode(npimg, cv2.IMREAD_GRAYSCALE)
+    cv2.imwrite(f"../public/grayed.jpg", grayed)
+    cv2.imwrite(f"../public/blurred.jpg", blurred)
+    cv2.imwrite(f"../public/pre_process.jpg", pre_processed)
     cv2.imwrite(f"../public/result.jpg", przerobionyObraz)
 
     return {

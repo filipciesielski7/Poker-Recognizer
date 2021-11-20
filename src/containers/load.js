@@ -110,7 +110,26 @@ const LoadContainer = () => {
               alt="Twoja kombinacja kart"
               id="current_image"
             />
+            Etapy obróbki obrazu
+
             <Load.Image
+              src={`${process.env.PUBLIC_URL}/grayed.jpg`}
+              alt="Twoja kombinacja kart"
+              id="current_image"
+            />
+            <Load.Image
+              src={`${process.env.PUBLIC_URL}/blurred.jpg`}
+              alt="Twoja kombinacja kart"
+              id="current_image"
+            />
+            <Load.Image
+              src={`${process.env.PUBLIC_URL}/pre_process.jpg`}
+              alt="Twoja kombinacja kart"
+              id="current_image"
+            />
+            Wynik końcowy
+            
+             <Load.Image
               src={`${process.env.PUBLIC_URL}/result.jpg`}
               alt="Twoja kombinacja kart"
               id="current_image"
