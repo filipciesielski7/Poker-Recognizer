@@ -106,12 +106,12 @@ const LoadContainer = () => {
         {!image ? (
           <>
             <Load.Image
-              src={`${process.env.PUBLIC_URL}/original.jpg`}
+              src={`${process.env.PUBLIC_URL}/results/original.jpg`}
               alt="Twoja kombinacja kart"
               id="current_image"
             />
             <Load.Image
-              src={`${process.env.PUBLIC_URL}/result.jpg`}
+              src={`${process.env.PUBLIC_URL}/results/result.jpg`}
               alt="Twoja kombinacja kart"
               id="current_image"
             />

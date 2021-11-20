@@ -24,11 +24,31 @@ def upload():
 
     original = cv2.imread('../public/examples/' + filename)
 
-    cv2.imwrite(f"../public/original.jpg", original)
+    cv2.imwrite(f"../public/results/original.jpg", original)
 
-    przerobionyObraz = CardRecognition.drawImage(original)
+    grayed, blurred, pre_processed, przerobionyObraz, card,przyblizenie, gorna_czesc, dolna_czesc = CardRecognition.drawImage(original)
+
+    pre_processed = cv2.resize(pre_processed, (original.shape[1], original.shape[0]), interpolation = cv2.INTER_CUBIC)
+    grayed = cv2.resize(grayed, (original.shape[1], original.shape[0]), interpolation = cv2.INTER_CUBIC)
+    blurred = cv2.resize(blurred, (original.shape[1], original.shape[0]), interpolation = cv2.INTER_CUBIC)
+    cv2.imwrite(f"../public/results/grayed.jpg", grayed)
+    cv2.imwrite(f"../public/results/blurred.jpg", blurred)
+    cv2.imwrite(f"../public/results/pre_process.jpg", pre_processed)
+
+    card = cv2.resize(card, (card.shape[1], card.shape[0]), interpolation = cv2.INTER_CUBIC)
+    cv2.imwrite(f"../public/results/card.jpg", card)
+
+    przyblizenie = cv2.resize(przyblizenie, (przyblizenie.shape[1], przyblizenie.shape[0]), interpolation = cv2.INTER_CUBIC)
+    cv2.imwrite(f"../public/results/zoom.jpg", przyblizenie)
+
+    gorna_czesc = cv2.resize(gorna_czesc, (gorna_czesc.shape[1], gorna_czesc.shape[0]), interpolation = cv2.INTER_CUBIC)
+    cv2.imwrite(f"../public/results/value.jpg", gorna_czesc)
+
+    dolna_czesc = cv2.resize(dolna_czesc, (dolna_czesc.shape[1], dolna_czesc.shape[0]), interpolation = cv2.INTER_CUBIC)
+    cv2.imwrite(f"../public/results/symbol.jpg", dolna_czesc)
+
     przerobionyObraz = cv2.resize(przerobionyObraz, (original.shape[1], original.shape[0]), interpolation = cv2.INTER_CUBIC)
-    cv2.imwrite(f"../public/result.jpg", przerobionyObraz)
+    cv2.imwrite(f"../public/results/result.jpg", przerobionyObraz)
 
     return {
         'success': True,
@@ -42,12 +62,31 @@ def handle_form():
     files = request.files['file']
     npimg = np.fromfile(files, np.uint8)
 
-    img1 = cv2.imdecode(npimg, cv2.IMREAD_COLOR)
-    cv2.imwrite(f"../public/original.jpg", img1)
-    przerobionyObraz = CardRecognition.drawImage(img1)
-    przerobionyObraz = cv2.resize(przerobionyObraz, (img1.shape[1], img1.shape[0]), interpolation = cv2.INTER_CUBIC)
-    img2 = cv2.imdecode(npimg, cv2.IMREAD_GRAYSCALE)
-    cv2.imwrite(f"../public/result.jpg", przerobionyObraz)
+    original = cv2.imdecode(npimg, cv2.IMREAD_COLOR)
+    cv2.imwrite(f"../public/results/original.jpg", original)
+    grayed, blurred, pre_processed, przerobionyObraz, card,przyblizenie, gorna_czesc, dolna_czesc = CardRecognition.drawImage(original)
+
+    pre_processed = cv2.resize(pre_processed, (original.shape[1], original.shape[0]), interpolation = cv2.INTER_CUBIC)
+    grayed = cv2.resize(grayed, (original.shape[1], original.shape[0]), interpolation = cv2.INTER_CUBIC)
+    blurred = cv2.resize(blurred, (original.shape[1], original.shape[0]), interpolation = cv2.INTER_CUBIC)
+    cv2.imwrite(f"../public/results/grayed.jpg", grayed)
+    cv2.imwrite(f"../public/results/blurred.jpg", blurred)
+    cv2.imwrite(f"../public/results/pre_process.jpg", pre_processed)
+
+    card = cv2.resize(card, (card.shape[1], card.shape[0]), interpolation = cv2.INTER_CUBIC)
+    cv2.imwrite(f"../public/results/card.jpg", card)
+
+    przyblizenie = cv2.resize(przyblizenie, (przyblizenie.shape[1], przyblizenie.shape[0]), interpolation = cv2.INTER_CUBIC)
+    cv2.imwrite(f"../public/results/zoom.jpg", przyblizenie)
+
+    gorna_czesc = cv2.resize(gorna_czesc, (gorna_czesc.shape[1], gorna_czesc.shape[0]), interpolation = cv2.INTER_CUBIC)
+    cv2.imwrite(f"../public/results/value.jpg", gorna_czesc)
+
+    dolna_czesc = cv2.resize(dolna_czesc, (dolna_czesc.shape[1], dolna_czesc.shape[0]), interpolation = cv2.INTER_CUBIC)
+    cv2.imwrite(f"../public/results/symbol.jpg", dolna_czesc)
+
+    przerobionyObraz = cv2.resize(przerobionyObraz, (original.shape[1], original.shape[0]), interpolation = cv2.INTER_CUBIC)
+    cv2.imwrite(f"../public/results/result.jpg", przerobionyObraz)
 
     return {
         'success': True,

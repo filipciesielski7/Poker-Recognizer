@@ -39,7 +39,8 @@ class Query_card:
 
     def __init__(self):
         self.contour = []  # Kontury karty
-        self.width, self.height = 0, 0  # Szerokość i wysokość karty
+        self.width = 0 # Szerokość karty
+        self.height = 0 # Wysokość karty
         self.corner_pts = []  # Punkty w narożnikach karty
         self.center = []  # Centroid karty
         self.warp = []  # Współrzędne spłaszczonego, wyszarzonego i zamazanego wejściowego obrazu o wymiarach 200x300
@@ -112,7 +113,7 @@ def preprocess_image(image):
 
     do_nothing, thresh = cv2.threshold(blurred, thresh_level, 255, cv2.THRESH_BINARY)
 
-    return thresh
+    return image, grayed, blurred, thresh
 
 # Funkcja znajdująca kontury kart w progowanym obrazie zwracająca posortowaną listę konturów oraz listę identyfikującą, które kontury mogą być kartami 
 def find_cards(thresh_image):
@@ -151,7 +152,7 @@ def find_cards(thresh_image):
     return contours_sort, cnt_is_card
 
 # Uzycie konturow do znalezienia informacji o kartach, oddzielenie rangi i koloru od karty
-def preprocess_card(contour, image):
+def preprocess_card(contour, image, blurred):
 
     qCard = Query_card()
 
@@ -166,6 +167,7 @@ def preprocess_card(contour, image):
     # Znalezienie wysokości i szerokości karty
     x, y, w, h = cv2.boundingRect(contour)
     qCard.width, qCard.height = w, h
+    new_card = blurred[y:y + h, x:x + w]
 
     # Znalezienie punktu środkowego karty poprzez znalezienie średniej po współrzędnych punktów w rogach
     average = np.sum(points, axis=0) / len(points)
@@ -211,7 +213,7 @@ def preprocess_card(contour, image):
         Qcolor_sized = cv2.resize(Qcolor_roi, (COLORS_WIDTH, COLORS_HEIGHT), 0, 0)
         qCard.color_img = Qcolor_sized
 
-    return qCard
+    return qCard, new_card, Qcorner_zoom, Qrank_roi, Qcolor_roi
 
 # Znalezienie najlepszej rangi i koloru dla karty z kolejki.
 def match_card(qCard, train_ranks, train_colors):
@@ -262,6 +264,8 @@ def draw_results(image, qCard):
     rank_name = qCard.best_rank_match
     color_name = qCard.best_color_match
 
+    font = cv2.FONT_HERSHEY_COMPLEX
+
     # Wypisanie nazwy dwukrotnie w celu pozostawienia czarnego konturu napisu 
     cv2.putText(image, rank_name, (x - 60, y - 10), font, 1, (0, 0, 0), 4, cv2.LINE_AA)
     cv2.putText(image, rank_name, (x - 60, y - 10), font, 1, (0, 0, 139), 2, cv2.LINE_AA)
@@ -278,6 +282,8 @@ def thickBestSystem(image, qCard):
 
     rank_name = qCard.best_rank_match
     color_name = qCard.best_color_match
+
+    font = cv2.FONT_HERSHEY_COMPLEX 
 
     cv2.putText(image, rank_name, (x - 60, y - 10), font, 1, (0, 0, 0), 7, cv2.LINE_AA)
     cv2.putText(image, rank_name, (x - 60, y - 10), font, 1, (255, 255, 255), 4, cv2.LINE_AA)

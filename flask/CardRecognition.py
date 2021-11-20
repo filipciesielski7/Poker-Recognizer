@@ -12,7 +12,7 @@ IM_HEIGHT = 720
 frame_rate_calc = 1
 
 # Czcionka
-font = cv2.FONT_HERSHEY_SIMPLEX
+font = cv2.FONT_HERSHEY_COMPLEX
 
 time.sleep(1)
 
@@ -36,7 +36,8 @@ def drawImage(img):
     image = cv2.resize(img, dim, interpolation = cv2.INTER_AREA)
     
     # Wstępna obróbka obrazu (wyszarzenie, blurowanie i progowanie)
-    pre_process = Cards.preprocess_image(image)
+    # pre_process = Cards.preprocess_image(image)
+    image, grayed, blurred, pre_process = Cards.preprocess_image(image)
 
     # Znalezienio i posortowanie konturów wszystkich kart na obrazku
     contours_sort, contour_is_card = Cards.find_cards(pre_process)
@@ -54,7 +55,9 @@ def drawImage(img):
             if (contour_is_card[i] == 1):
 
                 # Dodanie nowej karty ze znalezionego konturu
-                cards.append(Cards.preprocess_card(contours_sort[i], image))
+                # cards.append(Cards.preprocess_card(contours_sort[i], image))
+                card, example_card,przyblizenie, gorna_czesc, dolna_czesc = Cards.preprocess_card(contours_sort[i], image, blurred)
+                cards.append(card)
 
                 # Znalezienie najlepszej rangi i koloru dla nowo znalezionej karty
                 cards[k].best_rank_match, cards[k].best_color_match, cards[k].rank_diff, cards[
@@ -90,4 +93,13 @@ def drawImage(img):
                 Cards.thickBestSystem(image, card)
 
     # Zwrócenie obrazka ze znalezionymi kartami
-    return image
+    # return image
+
+    cv2.putText(grayed, "Wyszarzenie obrazu", (5, IM_HEIGHT//2 - 305), font, 1.95, (0, 0, 0), 3, cv2.LINE_AA)
+    cv2.putText(grayed,"Wyszarzenie obrazu", (5, IM_HEIGHT//2 - 305), font, 1.95, (255, 255, 255), 2, cv2.LINE_AA)
+    cv2.putText(blurred, "Rozmazanie obrazu", (5, IM_HEIGHT//2 - 305), font, 1.95, (0, 0, 0), 3, cv2.LINE_AA)
+    cv2.putText(blurred,"Rozmazanie obrazu", (5, IM_HEIGHT//2 - 305), font, 1.95, (255, 255, 255), 2, cv2.LINE_AA)
+    cv2.putText(pre_process, "Progowanie obrazu", (5, IM_HEIGHT//2 - 305), font, 1.95, (0, 0, 0), 3, cv2.LINE_AA)
+    cv2.putText(pre_process,"Progowanie obrazu", (5, IM_HEIGHT//2 - 305), font, 1.95, (255, 255, 255), 2, cv2.LINE_AA)
+
+    return grayed, blurred, pre_process, image, example_card,przyblizenie, gorna_czesc, dolna_czesc 
