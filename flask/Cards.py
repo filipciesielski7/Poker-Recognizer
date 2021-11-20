@@ -113,7 +113,7 @@ def preprocess_image(image):
 
     do_nothing, thresh = cv2.threshold(blurred, thresh_level, 255, cv2.THRESH_BINARY)
 
-    return grayed, blurred, thresh
+    return image,grayed, blurred, thresh
 
 # Funkcja znajdująca kontury kart w progowanym obrazie zwracająca posortowaną listę konturów oraz listę identyfikującą, które kontury mogą być kartami 
 def find_cards(thresh_image):
@@ -152,7 +152,7 @@ def find_cards(thresh_image):
     return contours_sort, cnt_is_card
 
 # Uzycie konturow do znalezienia informacji o kartach, oddzielenie rangi i koloru od karty
-def preprocess_card(contour, image):
+def preprocess_card(contour, image,blurred):
 
     card = Card()
 
@@ -167,6 +167,8 @@ def preprocess_card(contour, image):
     # Znalezienie wysokości i szerokości karty
     x, y, w, h = cv2.boundingRect(contour)
     card.width, card.height = w, h
+
+    new_card = blurred[y:y + h, x:x + w]
 
     # Znalezienie punktu środkowego karty poprzez znalezienie średniej po współrzędnych punktów w rogach
     average = np.sum(points, axis=0) / len(points)
@@ -190,6 +192,7 @@ def preprocess_card(contour, image):
     Qrank = query_thresh[20:170, 0:128]
     Qcolor = query_thresh[171:336, 0:128]
 
+
     # Znalezienie konturu rangi, prostokątu ograniczającego i największego konturu
     Qrank_cnts, hier = cv2.findContours(Qrank, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     Qrank_cnts = sorted(Qrank_cnts, key=cv2.contourArea, reverse=True)
@@ -197,8 +200,10 @@ def preprocess_card(contour, image):
     # Znalezienie prostokąta ograniczającego dla największego konturu, dopasowanie do wymiarów rang z folderu Image 
     if len(Qrank_cnts) != 0:
         x1, y1, w1, h1 = cv2.boundingRect(Qrank_cnts[0])
-        Qrank_roi = Qrank[y1:y1 + h1, x1:x1 + w1]
-        Qrank_sized = cv2.resize(Qrank_roi, (RANKS_WIDTH, RANKS_HEIGHT), 0, 0)
+
+        gorna_czesc = Qrank[y1:y1 + h1, x1:x1 + w1]
+
+        Qrank_sized = cv2.resize(gorna_czesc, (RANKS_WIDTH, RANKS_HEIGHT), 0, 0)
         card.rank_img = Qrank_sized
 
     # # Znalezienie konturu koloru, prostokątu ograniczającego i największego konturu
@@ -208,11 +213,13 @@ def preprocess_card(contour, image):
     # Znalezienie prostokąta ograniczającego dla największego konturu, dopasowanie do wymiarów rang z folderu Image 
     if len(Qcolor_cnts) != 0:
         x2, y2, w2, h2 = cv2.boundingRect(Qcolor_cnts[0])
-        Qcolor_roi = Qcolor[y2:y2 + h2, x2:x2 + w2]
-        Qcolor_sized = cv2.resize(Qcolor_roi, (COLORS_WIDTH, COLORS_HEIGHT), 0, 0)
+        
+        dolna_czesc = Qcolor[y2:y2 + h2, x2:x2 + w2]
+
+        Qcolor_sized = cv2.resize(dolna_czesc, (COLORS_WIDTH, COLORS_HEIGHT), 0, 0)
         card.color_img = Qcolor_sized
 
-    return card
+    return card, new_card,Qcorner_zoom, gorna_czesc, dolna_czesc
 
 # Znalezienie najlepszej rangi i koloru dla karty z kolejki.
 def match_card(card, train_ranks, train_colors):

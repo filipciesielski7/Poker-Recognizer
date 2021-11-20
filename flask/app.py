@@ -26,14 +26,26 @@ def upload():
 
     cv2.imwrite(f"../public/original.jpg", original)
 
-    grayed, blurred, pre_processed, przerobionyObraz = CardRecognition.drawImage(original)
+    grayed, blurred, pre_processed, przerobionyObraz, card,przyblizenie, gorna_czesc, dolna_czesc = CardRecognition.drawImage(original)
     pre_processed = cv2.resize(pre_processed, (original.shape[1], original.shape[0]), interpolation = cv2.INTER_CUBIC)
     grayed = cv2.resize(grayed, (original.shape[1], original.shape[0]), interpolation = cv2.INTER_CUBIC)
     blurred = cv2.resize(blurred, (original.shape[1], original.shape[0]), interpolation = cv2.INTER_CUBIC)
     cv2.imwrite(f"../public/grayed.jpg", grayed)
     cv2.imwrite(f"../public/blurred.jpg", blurred)
     cv2.imwrite(f"../public/pre_process.jpg", pre_processed)
- 
+
+    card = cv2.resize(card, (card.shape[1], card.shape[0]), interpolation = cv2.INTER_CUBIC)
+    cv2.imwrite(f"../public/card.jpg", card)
+
+    przyblizenie = cv2.resize(przyblizenie, (przyblizenie.shape[1], przyblizenie.shape[0]), interpolation = cv2.INTER_CUBIC)
+    cv2.imwrite(f"../public/przyblizenie.jpg", przyblizenie)
+
+    gorna_czesc = cv2.resize(gorna_czesc, (gorna_czesc.shape[1], gorna_czesc.shape[0]), interpolation = cv2.INTER_CUBIC)
+    cv2.imwrite(f"../public/gorna_czesc.jpg", gorna_czesc)
+
+    dolna_czesc = cv2.resize(dolna_czesc, (dolna_czesc.shape[1], dolna_czesc.shape[0]), interpolation = cv2.INTER_CUBIC)
+    cv2.imwrite(f"../public/dolna_czesc.jpg", dolna_czesc)
+
     przerobionyObraz = cv2.resize(przerobionyObraz, (original.shape[1], original.shape[0]), interpolation = cv2.INTER_CUBIC)
     cv2.imwrite(f"../public/result.jpg", przerobionyObraz)
 

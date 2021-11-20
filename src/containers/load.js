@@ -110,7 +110,7 @@ const LoadContainer = () => {
               alt="Twoja kombinacja kart"
               id="current_image"
             />
-            Etapy obróbki obrazu
+            Wstępna obróbka obrazu w celu znalezienia konturów kart
 
             <Load.Image
               src={`${process.env.PUBLIC_URL}/grayed.jpg`}
@@ -127,8 +127,32 @@ const LoadContainer = () => {
               alt="Twoja kombinacja kart"
               id="current_image"
             />
+            Przykładowa wykryta karta na podstawie wcześniej znalezionego konturu
+            <Load.Image
+              src={`${process.env.PUBLIC_URL}/card.jpg`}
+              alt="Twoja kombinacja kart"
+              id="current_image"
+            />
+            Obraz po spłaszczeniu karty, zmiany wymiarów karty do 200x300 i czterokrotnym przybliżeniu do rogu karty
+            <Load.Image
+              src={`${process.env.PUBLIC_URL}/przyblizenie.jpg`}
+              alt="Twoja kombinacja kart"
+              id="current_image"
+            />
+            Znalezienie prostokąta ograniczającego dla największego konturu w celu zidentyfikowania rangi karty, po wcześniejszym zastosowaniu odpowiedniego poziomu progowania
+            <Load.Image
+              src={`${process.env.PUBLIC_URL}/gorna_czesc.jpg`}
+              alt="Twoja kombinacja kart"
+              id="current_image"
+            />
+            Znalezienie prostokąta ograniczającego dla największego konturu w celu zidentyfikowania koloru karty, po wcześniejszym zastosowaniu odpowiedniego poziomu progowania
+            <Load.Image
+              src={`${process.env.PUBLIC_URL}/dolna_czesc.jpg`}
+              alt="Twoja kombinacja kart"
+              id="current_image"
+            />
             Wynik końcowy
-            
+
              <Load.Image
               src={`${process.env.PUBLIC_URL}/result.jpg`}
               alt="Twoja kombinacja kart"

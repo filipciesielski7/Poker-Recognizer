@@ -34,9 +34,10 @@ def drawImage(img):
     dim = (IM_WIDTH, IM_HEIGHT)
 
     image = cv2.resize(img, dim, interpolation = cv2.INTER_AREA)
-    
+    img2 = image
+
     # Wstępna obróbka obrazu (wyszarzenie, blurowanie i progowanie)
-    grayed, blurred, pre_process = Cards.preprocess_image(image)
+    image,grayed, blurred, pre_process = Cards.preprocess_image(image)
 
     # Znalezienio i posortowanie konturów wszystkich kart na obrazku
     contours_sort, contour_is_card = Cards.find_cards(pre_process)
@@ -49,13 +50,17 @@ def drawImage(img):
         cards_info = []
         k = 0
 
+    
+
         # Dla każdego znalezionego konturu:
         for i in range(len(contours_sort)):
             if (contour_is_card[i] == 1):
 
                 # Dodanie nowej karty ze znalezionego konturu
-                cards.append(Cards.preprocess_card(contours_sort[i], image))
-
+                card, example_card,przyblizenie, gorna_czesc, dolna_czesc = Cards.preprocess_card(contours_sort[i],image,blurred)
+                cards.append(card)
+           
+               
                 # Znalezienie najlepszej rangi i koloru dla nowo znalezionej karty
                 cards[k].best_rank_match, cards[k].best_color_match, cards[k].rank_diff, cards[
                     k].color_diff = Cards.match_card(cards[k], train_ranks, train_colors)
@@ -88,6 +93,8 @@ def drawImage(img):
         for card in cards:
             if isInSystem(card.best_rank_match, card.best_color_match, combination):
                 Cards.thickBestSystem(image, card)
+   
+
 
     # Zwrócenie obrazka ze znalezionymi kartami
 
@@ -98,4 +105,4 @@ def drawImage(img):
     cv2.putText(pre_process, "Progowanie obrazu", (5, IM_HEIGHT//2 - 305), font, 1.5, (0, 0, 0), 3, cv2.LINE_AA)
     cv2.putText(pre_process,"Progowanie obrazu", (5, IM_HEIGHT//2 - 305), font, 1.5, (255, 255, 255), 2, cv2.LINE_AA)
     
-    return grayed, blurred, pre_process,image
+    return grayed, blurred, pre_process,image, example_card,przyblizenie, gorna_czesc, dolna_czesc
