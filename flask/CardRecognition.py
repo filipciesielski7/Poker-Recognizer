@@ -101,5 +101,6 @@ def drawImage(img):
     cv2.putText(blurred,"Rozmazanie obrazu", (5, IM_HEIGHT//2 - 305), font, 1.95, (255, 255, 255), 2, cv2.LINE_AA)
     cv2.putText(pre_process, "Progowanie obrazu", (5, IM_HEIGHT//2 - 305), font, 1.95, (0, 0, 0), 3, cv2.LINE_AA)
     cv2.putText(pre_process,"Progowanie obrazu", (5, IM_HEIGHT//2 - 305), font, 1.95, (255, 255, 255), 2, cv2.LINE_AA)
+    cv2.putText(img, "Oryginalny obraz", (5, IM_HEIGHT//2 - 170), font, 6.2, (255, 255, 255), 7, cv2.LINE_AA)
 
-    return grayed, blurred, pre_process, image, example_card,przyblizenie, gorna_czesc, dolna_czesc 
+    return grayed, blurred, pre_process, image, example_card,przyblizenie, gorna_czesc, dolna_czesc, img 

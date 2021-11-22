@@ -6,6 +6,8 @@ import {
   SmallLabel,
   Label,
   Button,
+  StageInfo,
+  ButtonLink,
   OptionsContainer,
   SmallOptionsContainer,
   GithubLink,
@@ -34,6 +36,14 @@ Load.SmallLabel = function LoadSmallLabel({ children, ...restProps }) {
 
 Load.Button = function LoadButton({ children, ...restProps }) {
   return <Button {...restProps}>{children}</Button>;
+};
+
+Load.StageInfo = function LoadStageInfo({ children, ...restProps }) {
+  return <StageInfo {...restProps}>{children}</StageInfo>;
+};
+
+Load.ButtonLink = function LoadButtonLink({ children, ...restProps }) {
+  return <ButtonLink {...restProps}>{children}</ButtonLink>;
 };
 
 Load.OptionsContainer = function LoadOptionsContainer({

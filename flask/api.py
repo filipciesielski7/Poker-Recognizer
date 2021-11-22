@@ -24,9 +24,9 @@ def upload():
 
     original = cv2.imread('../public/examples/' + filename)
 
-    cv2.imwrite(f"../public/results/original.jpg", original)
-
-    grayed, blurred, pre_processed, przerobionyObraz, card,przyblizenie, gorna_czesc, dolna_czesc = CardRecognition.drawImage(original)
+    grayed, blurred, pre_processed, przerobionyObraz, card,przyblizenie, gorna_czesc, dolna_czesc, img = CardRecognition.drawImage(original)
+    
+    cv2.imwrite(f"../public/results/original.jpg", img)
 
     pre_processed = cv2.resize(pre_processed, (original.shape[1], original.shape[0]), interpolation = cv2.INTER_CUBIC)
     grayed = cv2.resize(grayed, (original.shape[1], original.shape[0]), interpolation = cv2.INTER_CUBIC)

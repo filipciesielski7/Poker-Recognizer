@@ -115,6 +115,9 @@ const LoadContainer = () => {
               alt="Twoja kombinacja kart"
               id="current_image"
             />
+            <Load.ButtonLink to="/result">
+              Zobacz jak działa algorytm
+            </Load.ButtonLink>
           </>
         ) : null}
         {image ? (

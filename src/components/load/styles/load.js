@@ -1,4 +1,5 @@
 import styled from "styled-components/macro";
+import { Link as ReactRouterLink } from "react-router-dom";
 
 export const Container = styled.div`
   display: flex;
@@ -24,6 +25,10 @@ export const Input = styled.input`
 export const Image = styled.img`
   max-width: 70vw;
   max-height: 70vh;
+  @media (max-width: 600px) {
+    max-width: 90vw;
+    max-height: 70vh;
+  }
   margin-bottom: 20px;
   border: 1px solid white;
   border-radius: 4px;
@@ -140,6 +145,44 @@ export const Button = styled.button`
   }
 `;
 
+export const ButtonLink = styled(ReactRouterLink)`
+  padding: 10px;
+  margin: 0 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  text-transform: uppercase;
+  text-decoration: none;
+
+  border: none;
+  outline: none;
+  background: none;
+  border: 1px solid white;
+  color: white;
+  transition: all 0.5s ease 0s;
+
+  box-shadow: 0 0.5px 2px white;
+
+  &:hover {
+    transform: scale(1.05);
+    background: rgba(255, 255, 255);
+    color: black;
+  }
+
+  &:active {
+    transform: translateY(2px);
+    box-shadow: 0 0px 0px white;
+  }
+
+  @media (max-width: 450px) {
+    font-size: 10px;
+    padding: 7px;
+  }
+
+  @media (max-width: 390px) {
+    // margin: 10px;
+  }
+`;
+
 export const OptionsContainer = styled.div`
   display: flex;
   align-items: center;
@@ -178,4 +221,11 @@ export const Form = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
+`;
+
+export const StageInfo = styled.p`
+  color: white;
+  font-weight: 400;
+  font-size: 18px;
+  margin: 10px;
 `;

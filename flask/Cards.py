@@ -267,10 +267,10 @@ def draw_results(image, qCard):
     font = cv2.FONT_HERSHEY_COMPLEX
 
     # Wypisanie nazwy dwukrotnie w celu pozostawienia czarnego konturu napisu 
-    cv2.putText(image, rank_name, (x - 60, y - 10), font, 1, (0, 0, 0), 4, cv2.LINE_AA)
+    cv2.putText(image, rank_name, (x - 60, y - 10), font, 1, (255, 255, 255), 6, cv2.LINE_AA)
     cv2.putText(image, rank_name, (x - 60, y - 10), font, 1, (0, 0, 139), 2, cv2.LINE_AA)
 
-    cv2.putText(image, color_name, (x - 60, y + 25), font, 1, (0, 0, 0), 3, cv2.LINE_AA)
+    cv2.putText(image, color_name, (x - 60, y + 25), font, 1, (255, 255, 255), 6, cv2.LINE_AA)
     cv2.putText(image, color_name, (x - 60, y + 25), font, 1, (0, 0, 139), 2, cv2.LINE_AA)
 
     return image, rank_name, color_name
