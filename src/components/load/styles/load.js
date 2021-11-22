@@ -227,5 +227,13 @@ export const StageInfo = styled.p`
   color: white;
   font-weight: 400;
   font-size: 18px;
-  margin: 10px;
+  margin-top: 40px;
+  margin-bottom: 20px;
+  max-width: 70vw;
+
+  // background: white;
+  color: white;
+  border-radius: 4px;
+  padding: 5px;
+  text-align: center;
 `;
