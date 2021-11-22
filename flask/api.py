@@ -19,18 +19,16 @@ def get_images():
 @cross_origin()
 def upload():
     data = request.get_json(silent=True)
-    image = {'filename': data.get('image')}
     filename = data.get('image')[27:]
+    original_image = cv2.imread('../public/examples/' + filename)
 
-    original = cv2.imread('../public/examples/' + filename)
-
-    grayed, blurred, pre_processed, przerobionyObraz, card,przyblizenie, gorna_czesc, dolna_czesc, img = CardRecognition.drawImage(original)
+    grayed, blurred, pre_processed, result, card, zoom, value, symbol, original = CardRecognition.drawImage(original_image)
     
-    cv2.imwrite(f"../public/results/original.jpg", img)
+    cv2.imwrite(f"../public/results/original.jpg", original)
 
-    pre_processed = cv2.resize(pre_processed, (original.shape[1], original.shape[0]), interpolation = cv2.INTER_CUBIC)
-    grayed = cv2.resize(grayed, (original.shape[1], original.shape[0]), interpolation = cv2.INTER_CUBIC)
-    blurred = cv2.resize(blurred, (original.shape[1], original.shape[0]), interpolation = cv2.INTER_CUBIC)
+    pre_processed = cv2.resize(pre_processed, (original_image.shape[1], original_image.shape[0]), interpolation = cv2.INTER_CUBIC)
+    grayed = cv2.resize(grayed, (original_image.shape[1], original_image.shape[0]), interpolation = cv2.INTER_CUBIC)
+    blurred = cv2.resize(blurred, (original_image.shape[1], original_image.shape[0]), interpolation = cv2.INTER_CUBIC)
     cv2.imwrite(f"../public/results/grayed.jpg", grayed)
     cv2.imwrite(f"../public/results/blurred.jpg", blurred)
     cv2.imwrite(f"../public/results/pre_process.jpg", pre_processed)
@@ -38,17 +36,17 @@ def upload():
     card = cv2.resize(card, (card.shape[1], card.shape[0]), interpolation = cv2.INTER_CUBIC)
     cv2.imwrite(f"../public/results/card.jpg", card)
 
-    przyblizenie = cv2.resize(przyblizenie, (przyblizenie.shape[1], przyblizenie.shape[0]), interpolation = cv2.INTER_CUBIC)
-    cv2.imwrite(f"../public/results/zoom.jpg", przyblizenie)
+    zoom = cv2.resize(zoom, (zoom.shape[1], zoom.shape[0]), interpolation = cv2.INTER_CUBIC)
+    cv2.imwrite(f"../public/results/zoom.jpg", zoom)
 
-    gorna_czesc = cv2.resize(gorna_czesc, (gorna_czesc.shape[1], gorna_czesc.shape[0]), interpolation = cv2.INTER_CUBIC)
-    cv2.imwrite(f"../public/results/value.jpg", gorna_czesc)
+    value = cv2.resize(value, (value.shape[1], value.shape[0]), interpolation = cv2.INTER_CUBIC)
+    cv2.imwrite(f"../public/results/value.jpg", value)
 
-    dolna_czesc = cv2.resize(dolna_czesc, (dolna_czesc.shape[1], dolna_czesc.shape[0]), interpolation = cv2.INTER_CUBIC)
-    cv2.imwrite(f"../public/results/symbol.jpg", dolna_czesc)
+    symbol = cv2.resize(symbol, (symbol.shape[1], symbol.shape[0]), interpolation = cv2.INTER_CUBIC)
+    cv2.imwrite(f"../public/results/symbol.jpg", symbol)
 
-    przerobionyObraz = cv2.resize(przerobionyObraz, (original.shape[1], original.shape[0]), interpolation = cv2.INTER_CUBIC)
-    cv2.imwrite(f"../public/results/result.jpg", przerobionyObraz)
+    result = cv2.resize(result, (original_image.shape[1], original_image.shape[0]), interpolation = cv2.INTER_CUBIC)
+    cv2.imwrite(f"../public/results/result.jpg", result)
 
     return {
         'success': True,
@@ -62,13 +60,14 @@ def handle_form():
     files = request.files['file']
     npimg = np.fromfile(files, np.uint8)
 
-    original = cv2.imdecode(npimg, cv2.IMREAD_COLOR)
-    cv2.imwrite(f"../public/results/original.jpg", original)
-    grayed, blurred, pre_processed, przerobionyObraz, card,przyblizenie, gorna_czesc, dolna_czesc = CardRecognition.drawImage(original)
+    original_image = cv2.imdecode(npimg, cv2.IMREAD_COLOR)
+    grayed, blurred, pre_processed, result, card,zoom, value, symbol, img = CardRecognition.drawImage(original_image)
 
-    pre_processed = cv2.resize(pre_processed, (original.shape[1], original.shape[0]), interpolation = cv2.INTER_CUBIC)
-    grayed = cv2.resize(grayed, (original.shape[1], original.shape[0]), interpolation = cv2.INTER_CUBIC)
-    blurred = cv2.resize(blurred, (original.shape[1], original.shape[0]), interpolation = cv2.INTER_CUBIC)
+    cv2.imwrite(f"../public/results/original.jpg", img)
+
+    pre_processed = cv2.resize(pre_processed, (original_image.shape[1], original_image.shape[0]), interpolation = cv2.INTER_CUBIC)
+    grayed = cv2.resize(grayed, (original_image.shape[1], original_image.shape[0]), interpolation = cv2.INTER_CUBIC)
+    blurred = cv2.resize(blurred, (original_image.shape[1], original_image.shape[0]), interpolation = cv2.INTER_CUBIC)
     cv2.imwrite(f"../public/results/grayed.jpg", grayed)
     cv2.imwrite(f"../public/results/blurred.jpg", blurred)
     cv2.imwrite(f"../public/results/pre_process.jpg", pre_processed)
@@ -76,17 +75,17 @@ def handle_form():
     card = cv2.resize(card, (card.shape[1], card.shape[0]), interpolation = cv2.INTER_CUBIC)
     cv2.imwrite(f"../public/results/card.jpg", card)
 
-    przyblizenie = cv2.resize(przyblizenie, (przyblizenie.shape[1], przyblizenie.shape[0]), interpolation = cv2.INTER_CUBIC)
-    cv2.imwrite(f"../public/results/zoom.jpg", przyblizenie)
+    zoom = cv2.resize(zoom, (zoom.shape[1], zoom.shape[0]), interpolation = cv2.INTER_CUBIC)
+    cv2.imwrite(f"../public/results/zoom.jpg", zoom)
 
-    gorna_czesc = cv2.resize(gorna_czesc, (gorna_czesc.shape[1], gorna_czesc.shape[0]), interpolation = cv2.INTER_CUBIC)
-    cv2.imwrite(f"../public/results/value.jpg", gorna_czesc)
+    value = cv2.resize(value, (value.shape[1], value.shape[0]), interpolation = cv2.INTER_CUBIC)
+    cv2.imwrite(f"../public/results/value.jpg", value)
 
-    dolna_czesc = cv2.resize(dolna_czesc, (dolna_czesc.shape[1], dolna_czesc.shape[0]), interpolation = cv2.INTER_CUBIC)
-    cv2.imwrite(f"../public/results/symbol.jpg", dolna_czesc)
+    symbol = cv2.resize(symbol, (symbol.shape[1], symbol.shape[0]), interpolation = cv2.INTER_CUBIC)
+    cv2.imwrite(f"../public/results/symbol.jpg", symbol)
 
-    przerobionyObraz = cv2.resize(przerobionyObraz, (original.shape[1], original.shape[0]), interpolation = cv2.INTER_CUBIC)
-    cv2.imwrite(f"../public/results/result.jpg", przerobionyObraz)
+    result = cv2.resize(result, (original_image.shape[1], original_image.shape[0]), interpolation = cv2.INTER_CUBIC)
+    cv2.imwrite(f"../public/results/result.jpg", result)
 
     return {
         'success': True,

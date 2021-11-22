@@ -36,7 +36,7 @@ font = cv2.FONT_HERSHEY_SIMPLEX
 
 # Klasa przechowująca informacje o kolejce kart do sprawdzenia
 class Query_card:
-
+    
     def __init__(self):
         self.contour = []  # Kontury karty
         self.width = 0 # Szerokość karty

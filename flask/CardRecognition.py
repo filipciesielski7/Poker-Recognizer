@@ -9,8 +9,6 @@ import Poker
 IM_WIDTH = 1280
 IM_HEIGHT = 720
 
-frame_rate_calc = 1
-
 # Czcionka
 font = cv2.FONT_HERSHEY_COMPLEX
 
@@ -30,13 +28,11 @@ def isInSystem(rank, color, combination):
 
 # Funkcja zwracajaca informacje o przerobionym obrazie wejściowym
 def drawImage(img):
-    global frame_rate_calc
-    dim = (IM_WIDTH, IM_HEIGHT)
+    size = (IM_WIDTH, IM_HEIGHT)
 
-    image = cv2.resize(img, dim, interpolation = cv2.INTER_AREA)
+    image = cv2.resize(img, size, interpolation = cv2.INTER_AREA)
     
     # Wstępna obróbka obrazu (wyszarzenie, blurowanie i progowanie)
-    # pre_process = Cards.preprocess_image(image)
     image, grayed, blurred, pre_process = Cards.preprocess_image(image)
 
     # Znalezienio i posortowanie konturów wszystkich kart na obrazku
@@ -55,15 +51,14 @@ def drawImage(img):
             if (contour_is_card[i] == 1):
 
                 # Dodanie nowej karty ze znalezionego konturu
-                # cards.append(Cards.preprocess_card(contours_sort[i], image))
-                card, example_card,przyblizenie, gorna_czesc, dolna_czesc = Cards.preprocess_card(contours_sort[i], image, blurred)
+                card, example_card, zoom, value, symbol = Cards.preprocess_card(contours_sort[i], image, blurred)
                 cards.append(card)
 
                 # Znalezienie najlepszej rangi i koloru dla nowo znalezionej karty
                 cards[k].best_rank_match, cards[k].best_color_match, cards[k].rank_diff, cards[
                     k].color_diff = Cards.match_card(cards[k], train_ranks, train_colors)
 
-                # Narysowanie centroidu i wypisanie nazwy karty
+                # Wypisanie nazwy karty
                 image, rank_name, color_name = Cards.draw_results(image, cards[k])
                 cards_info.append([rank_name, color_name])
                 k += 1
@@ -92,8 +87,7 @@ def drawImage(img):
             if isInSystem(card.best_rank_match, card.best_color_match, combination):
                 Cards.thickBestSystem(image, card)
 
-    # Zwrócenie obrazka ze znalezionymi kartami
-    # return image
+    # Zwrócenie obrazka ze znalezionymi kartami i poszczególnych etapów elagorytmu
 
     cv2.putText(grayed, "Wyszarzenie obrazu", (5, IM_HEIGHT//2 - 305), font, 1.95, (0, 0, 0), 3, cv2.LINE_AA)
     cv2.putText(grayed,"Wyszarzenie obrazu", (5, IM_HEIGHT//2 - 305), font, 1.95, (255, 255, 255), 2, cv2.LINE_AA)
@@ -101,6 +95,7 @@ def drawImage(img):
     cv2.putText(blurred,"Rozmazanie obrazu", (5, IM_HEIGHT//2 - 305), font, 1.95, (255, 255, 255), 2, cv2.LINE_AA)
     cv2.putText(pre_process, "Progowanie obrazu", (5, IM_HEIGHT//2 - 305), font, 1.95, (0, 0, 0), 3, cv2.LINE_AA)
     cv2.putText(pre_process,"Progowanie obrazu", (5, IM_HEIGHT//2 - 305), font, 1.95, (255, 255, 255), 2, cv2.LINE_AA)
-    cv2.putText(img, "Oryginalny obraz", (5, IM_HEIGHT//2 - 170), font, 6.2, (255, 255, 255), 7, cv2.LINE_AA)
+    cv2.putText(img, "Oryginalny obraz", (5, IM_HEIGHT//2 - 170), font, 6.2, (0, 0, 0), 7, cv2.LINE_AA)
+    cv2.putText(img, "Oryginalny obraz", (5, IM_HEIGHT//2 - 170), font, 6.2, (255, 255, 255), 5, cv2.LINE_AA)
 
-    return grayed, blurred, pre_process, image, example_card,przyblizenie, gorna_czesc, dolna_czesc, img 
+    return grayed, blurred, pre_process, image, example_card, zoom, value, symbol, img 
