@@ -9,6 +9,7 @@ import {
   StageInfo,
   ButtonLink,
   OptionsContainer,
+  CardCornerImages,
   SmallOptionsContainer,
   GithubLink,
   Form,
@@ -40,6 +41,10 @@ Load.Button = function LoadButton({ children, ...restProps }) {
 
 Load.StageInfo = function LoadStageInfo({ children, ...restProps }) {
   return <StageInfo {...restProps}>{children}</StageInfo>;
+};
+
+Load.CardCornerImages = function LoadCardCornerImages({ children, ...restProps }) {
+  return <CardCornerImages {...restProps}>{children}</CardCornerImages>;
 };
 
 Load.ButtonLink = function LoadButtonLink({ children, ...restProps }) {

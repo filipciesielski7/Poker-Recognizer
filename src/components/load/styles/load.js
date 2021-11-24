@@ -29,7 +29,7 @@ export const Image = styled.img`
     max-width: 90vw;
     max-height: 70vh;
   }
-  margin-bottom: 20px;
+  margin: 0 20px 20px 20px;
   border: 1px solid white;
   border-radius: 4px;
 `;
@@ -39,6 +39,7 @@ export const Label = styled.label`
   color: black;
   border-radius: 10px;
   padding: 15px;
+  text-align: center;
   // margin: 20px;
 
   font-size: 12px;
@@ -152,6 +153,7 @@ export const ButtonLink = styled(ReactRouterLink)`
   font-size: 12px;
   text-transform: uppercase;
   text-decoration: none;
+  text-align: center;
 
   border: none;
   outline: none;
@@ -229,11 +231,31 @@ export const StageInfo = styled.p`
   font-size: 18px;
   margin-top: 40px;
   margin-bottom: 20px;
-  max-width: 70vw;
+  width: 70vw;
+  max-width: 750px;
+  @media (max-width: 600px) {
+    width: 90vw;
+  }
 
-  // background: white;
-  color: white;
+  color: gray;
+  text-justify: inter-word;
   border-radius: 4px;
   padding: 5px;
-  text-align: center;
+  // text-align: center;
+
+  @media (max-width: 950px) {
+    font-size: 16px;
+  }
+  @media (max-width: 400px) {
+    font-size: 14px;
+  }
+  @media (max-width: 300px) {
+    font-size: 12px;
+  }
+`;
+
+export const CardCornerImages = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
