@@ -4,6 +4,7 @@ import time
 import os
 import Cards
 import Poker
+import copy
 
 # Wymiary obrazu
 IM_WIDTH = 1280
@@ -67,8 +68,8 @@ def drawImage(img):
         final_result, combination = Poker.findSystem(cards_info)
 
         # Wypisanie najlepszej mozliwej kombinacji podanych kart
-        cv2.putText(image, final_result, (5, IM_HEIGHT//2 - 305), font, 1.95, (0, 0, 0), 3, cv2.LINE_AA)
-        cv2.putText(image, final_result, (5, IM_HEIGHT//2 - 305), font, 1.95, (255, 255, 255), 2, cv2.LINE_AA)
+        cv2.putText(image, final_result, (5, IM_HEIGHT//2 - 305), font, 1.75, (0, 0, 0), 3, cv2.LINE_AA)
+        cv2.putText(image, final_result, (5, IM_HEIGHT//2 - 305), font, 1.75, (255, 255, 255), 2, cv2.LINE_AA)
 
         # Narysowanie konturu na wejściowym obrazku (zielony dla kart nalezacych do ukladu, czerwony dla innych)
         if (len(cards) != 0):
@@ -88,6 +89,13 @@ def drawImage(img):
                 Cards.thickBestSystem(image, card)
 
     # Zwrócenie obrazka ze znalezionymi kartami i poszczególnych etapów elagorytmu
+    else:
+        img2 = copy.copy(img)
+        cv2.putText(img, "Oryginalny obraz", (5, IM_HEIGHT//2 - 170), font, 6.2, (255, 255, 255), 8, cv2.LINE_AA)
+        cv2.putText(img, "Oryginalny obraz", (5, IM_HEIGHT//2 - 170), font, 6.2, (0, 0, 0), 5, cv2.LINE_AA)
+        cv2.putText(img2, "Nie znaleziono konturow kart", (5, IM_HEIGHT//2 - 170), font, 6.2, (255, 255, 255), 8, cv2.LINE_AA)
+        cv2.putText(img2, "Nie znaleziono konturow kart", (5, IM_HEIGHT//2 - 170), font, 6.2, (0, 0, 0), 5, cv2.LINE_AA)
+        return 0, 0, 0, 0, 0, 0, 0, 0, img, img2, False
 
     cv2.putText(grayed, "Wyszarzenie obrazu", (5, IM_HEIGHT//2 - 305), font, 1.95, (0, 0, 0), 3, cv2.LINE_AA)
     cv2.putText(grayed,"Wyszarzenie obrazu", (5, IM_HEIGHT//2 - 305), font, 1.95, (255, 255, 255), 2, cv2.LINE_AA)
@@ -98,4 +106,4 @@ def drawImage(img):
     cv2.putText(img, "Oryginalny obraz", (5, IM_HEIGHT//2 - 170), font, 6.2, (0, 0, 0), 7, cv2.LINE_AA)
     cv2.putText(img, "Oryginalny obraz", (5, IM_HEIGHT//2 - 170), font, 6.2, (255, 255, 255), 5, cv2.LINE_AA)
 
-    return grayed, blurred, pre_process, image, example_card, zoom, value, symbol, img 
+    return grayed, blurred, pre_process, image, example_card, zoom, value, symbol, img, img, True
