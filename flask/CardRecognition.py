@@ -30,6 +30,14 @@ def isInSystem(rank, color, combination):
 # Funkcja zwracajaca informacje o przerobionym obrazie wejściowym
 def drawImage(img):
     size = (IM_WIDTH, IM_HEIGHT)
+    example_card = []
+    zoom = []
+    value = []
+    symbol = []
+    image = [] 
+    grayed = [] 
+    blurred = []
+    pre_process = [] 
 
     image = cv2.resize(img, size, interpolation = cv2.INTER_AREA)
     
@@ -52,7 +60,16 @@ def drawImage(img):
             if (contour_is_card[i] == 1):
 
                 # Dodanie nowej karty ze znalezionego konturu
-                card, example_card, zoom, value, symbol = Cards.preprocess_card(contours_sort[i], image, blurred)
+                card, example_card, zoom, value, symbol, valid = Cards.preprocess_card(contours_sort[i], image, blurred)
+
+                if(not valid or example_card == []):
+                    img2 = copy.copy(img)
+                    cv2.putText(img, "Oryginalny obraz", (5, IM_HEIGHT//2 - 170), font, 6.2, (0, 0, 0), 8, cv2.LINE_AA)
+                    cv2.putText(img, "Oryginalny obraz", (5, IM_HEIGHT//2 - 170), font, 6.2, (255, 255, 255), 5, cv2.LINE_AA)
+                    cv2.putText(img2, "Nie odczytano poprawnie zdjecia", (5, IM_HEIGHT//2 - 170), font, 6.2, (0, 0, 0), 8, cv2.LINE_AA)
+                    cv2.putText(img2, "Nie odczytano poprawnie zdjecia", (5, IM_HEIGHT//2 - 170), font, 6.2, (255, 255, 255), 5, cv2.LINE_AA)
+                    return 0, 0, 0, 0, 0, 0, 0, 0, img, img2, False
+
                 cards.append(card)
 
                 # Znalezienie najlepszej rangi i koloru dla nowo znalezionej karty
@@ -97,13 +114,28 @@ def drawImage(img):
         cv2.putText(img2, "Nie znaleziono konturow kart", (5, IM_HEIGHT//2 - 170), font, 6.2, (0, 0, 0), 5, cv2.LINE_AA)
         return 0, 0, 0, 0, 0, 0, 0, 0, img, img2, False
 
-    cv2.putText(grayed, "Wyszarzenie obrazu", (5, IM_HEIGHT//2 - 305), font, 1.95, (0, 0, 0), 3, cv2.LINE_AA)
-    cv2.putText(grayed,"Wyszarzenie obrazu", (5, IM_HEIGHT//2 - 305), font, 1.95, (255, 255, 255), 2, cv2.LINE_AA)
-    cv2.putText(blurred, "Rozmazanie obrazu", (5, IM_HEIGHT//2 - 305), font, 1.95, (0, 0, 0), 3, cv2.LINE_AA)
-    cv2.putText(blurred,"Rozmazanie obrazu", (5, IM_HEIGHT//2 - 305), font, 1.95, (255, 255, 255), 2, cv2.LINE_AA)
-    cv2.putText(pre_process, "Progowanie obrazu", (5, IM_HEIGHT//2 - 305), font, 1.95, (0, 0, 0), 3, cv2.LINE_AA)
-    cv2.putText(pre_process,"Progowanie obrazu", (5, IM_HEIGHT//2 - 305), font, 1.95, (255, 255, 255), 2, cv2.LINE_AA)
-    cv2.putText(img, "Oryginalny obraz", (5, IM_HEIGHT//2 - 170), font, 6.2, (0, 0, 0), 7, cv2.LINE_AA)
-    cv2.putText(img, "Oryginalny obraz", (5, IM_HEIGHT//2 - 170), font, 6.2, (255, 255, 255), 5, cv2.LINE_AA)
+    if(example_card == [] or
+    zoom == [] or
+    value == [] or
+    symbol == [] or
+    image == [] or
+    grayed == [] or
+    blurred == [] or
+    pre_process == [] ):
+        img2 = copy.copy(img)
+        cv2.putText(img, "Oryginalny obraz", (5, IM_HEIGHT//2 - 170), font, 6.2, (255, 255, 255), 8, cv2.LINE_AA)
+        cv2.putText(img, "Oryginalny obraz", (5, IM_HEIGHT//2 - 170), font, 6.2, (0, 0, 0), 5, cv2.LINE_AA)
+        cv2.putText(img2, "Nie znaleziono konturow kart", (5, IM_HEIGHT//2 - 170), font, 6.2, (255, 255, 255), 8, cv2.LINE_AA)
+        cv2.putText(img2, "Nie znaleziono konturow kart", (5, IM_HEIGHT//2 - 170), font, 6.2, (0, 0, 0), 5, cv2.LINE_AA)
+        return 0, 0, 0, 0, 0, 0, 0, 0, img, img2, False
+    else:
+        cv2.putText(grayed, "Wyszarzenie obrazu", (5, IM_HEIGHT//2 - 305), font, 1.95, (0, 0, 0), 3, cv2.LINE_AA)
+        cv2.putText(grayed,"Wyszarzenie obrazu", (5, IM_HEIGHT//2 - 305), font, 1.95, (255, 255, 255), 2, cv2.LINE_AA)
+        cv2.putText(blurred, "Rozmazanie obrazu", (5, IM_HEIGHT//2 - 305), font, 1.95, (0, 0, 0), 3, cv2.LINE_AA)
+        cv2.putText(blurred,"Rozmazanie obrazu", (5, IM_HEIGHT//2 - 305), font, 1.95, (255, 255, 255), 2, cv2.LINE_AA)
+        cv2.putText(pre_process, "Progowanie obrazu", (5, IM_HEIGHT//2 - 305), font, 1.95, (0, 0, 0), 3, cv2.LINE_AA)
+        cv2.putText(pre_process,"Progowanie obrazu", (5, IM_HEIGHT//2 - 305), font, 1.95, (255, 255, 255), 2, cv2.LINE_AA)
+        cv2.putText(img, "Oryginalny obraz", (5, IM_HEIGHT//2 - 170), font, 6.2, (0, 0, 0), 7, cv2.LINE_AA)
+        cv2.putText(img, "Oryginalny obraz", (5, IM_HEIGHT//2 - 170), font, 6.2, (255, 255, 255), 5, cv2.LINE_AA)
 
-    return grayed, blurred, pre_process, image, example_card, zoom, value, symbol, img, img, True
+        return grayed, blurred, pre_process, image, example_card, zoom, value, symbol, img, img, True

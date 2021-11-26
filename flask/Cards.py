@@ -167,6 +167,7 @@ def preprocess_card(contour, image, blurred):
     # Znalezienie wysokości i szerokości karty
     x, y, w, h = cv2.boundingRect(contour)
     qCard.width, qCard.height = w, h
+    new_card = []
     new_card = blurred[y:y + h, x:x + w]
 
     # Znalezienie punktu środkowego karty poprzez znalezienie średniej po współrzędnych punktów w rogach
@@ -196,6 +197,7 @@ def preprocess_card(contour, image, blurred):
     Qrank_cnts = sorted(Qrank_cnts, key=cv2.contourArea, reverse=True)
 
     # Znalezienie prostokąta ograniczającego dla największego konturu, dopasowanie do wymiarów rang z folderu Image 
+    Qrank_roi = []
     if len(Qrank_cnts) != 0:
         x1, y1, w1, h1 = cv2.boundingRect(Qrank_cnts[0])
         Qrank_roi = Qrank[y1:y1 + h1, x1:x1 + w1]
@@ -207,13 +209,17 @@ def preprocess_card(contour, image, blurred):
     Qcolor_cnts = sorted(Qcolor_cnts, key=cv2.contourArea, reverse=True)
 
     # Znalezienie prostokąta ograniczającego dla największego konturu, dopasowanie do wymiarów rang z folderu Image 
+    Qcolor_roi = []
     if len(Qcolor_cnts) != 0:
         x2, y2, w2, h2 = cv2.boundingRect(Qcolor_cnts[0])
         Qcolor_roi = Qcolor[y2:y2 + h2, x2:x2 + w2]
         Qcolor_sized = cv2.resize(Qcolor_roi, (COLORS_WIDTH, COLORS_HEIGHT), 0, 0)
         qCard.color_img = Qcolor_sized
 
-    return qCard, new_card, Qcorner_zoom, Qrank_roi, Qcolor_roi
+    valid = True
+    if(Qrank_roi == [] or Qcolor_roi == [] or new_card == []):
+        valid = False
+    return qCard, new_card, Qcorner_zoom, Qrank_roi, Qcolor_roi, valid
 
 # Znalezienie najlepszej rangi i koloru dla karty z kolejki.
 def match_card(qCard, train_ranks, train_colors):
