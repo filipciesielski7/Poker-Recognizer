@@ -108,10 +108,10 @@ def drawImage(img):
     # Zwrócenie obrazka ze znalezionymi kartami i poszczególnych etapów elagorytmu
     else:
         img2 = copy.copy(img)
-        cv2.putText(img, "Oryginalny obraz", (5, IM_HEIGHT//2 - 170), font, 6.2, (255, 255, 255), 8, cv2.LINE_AA)
-        cv2.putText(img, "Oryginalny obraz", (5, IM_HEIGHT//2 - 170), font, 6.2, (0, 0, 0), 5, cv2.LINE_AA)
-        cv2.putText(img2, "Nie znaleziono konturow kart", (5, IM_HEIGHT//2 - 170), font, 6.2, (255, 255, 255), 8, cv2.LINE_AA)
-        cv2.putText(img2, "Nie znaleziono konturow kart", (5, IM_HEIGHT//2 - 170), font, 6.2, (0, 0, 0), 5, cv2.LINE_AA)
+        cv2.putText(img, "Oryginalny obraz", (5, IM_HEIGHT//2 - 170), font, 5.2, (255, 255, 255), 8, cv2.LINE_AA)
+        cv2.putText(img, "Oryginalny obraz", (5, IM_HEIGHT//2 - 170), font, 5.2, (0, 0, 0), 5, cv2.LINE_AA)
+        cv2.putText(img2, "Nie znaleziono konturow kart", (5, IM_HEIGHT//2 - 170), font, 5.2, (255, 255, 255), 8, cv2.LINE_AA)
+        cv2.putText(img2, "Nie znaleziono konturow kart", (5, IM_HEIGHT//2 - 170), font, 5.2, (0, 0, 0), 5, cv2.LINE_AA)
         return 0, 0, 0, 0, 0, 0, 0, 0, img, img2, False
 
     if(example_card == [] or
@@ -123,10 +123,10 @@ def drawImage(img):
     blurred == [] or
     pre_process == [] ):
         img2 = copy.copy(img)
-        cv2.putText(img, "Oryginalny obraz", (5, IM_HEIGHT//2 - 170), font, 6.2, (255, 255, 255), 8, cv2.LINE_AA)
-        cv2.putText(img, "Oryginalny obraz", (5, IM_HEIGHT//2 - 170), font, 6.2, (0, 0, 0), 5, cv2.LINE_AA)
-        cv2.putText(img2, "Nie znaleziono konturow kart", (5, IM_HEIGHT//2 - 170), font, 6.2, (255, 255, 255), 8, cv2.LINE_AA)
-        cv2.putText(img2, "Nie znaleziono konturow kart", (5, IM_HEIGHT//2 - 170), font, 6.2, (0, 0, 0), 5, cv2.LINE_AA)
+        cv2.putText(img, "Oryginalny obraz", (5, IM_HEIGHT//2 - 170), font, 5.2, (255, 255, 255), 8, cv2.LINE_AA)
+        cv2.putText(img, "Oryginalny obraz", (5, IM_HEIGHT//2 - 170), font, 5.2, (0, 0, 0), 5, cv2.LINE_AA)
+        cv2.putText(img2, "Nie znaleziono konturow kart", (5, IM_HEIGHT//2 - 170), font, 5.2, (255, 255, 255), 8, cv2.LINE_AA)
+        cv2.putText(img2, "Nie znaleziono konturow kart", (5, IM_HEIGHT//2 - 170), font, 5.2, (0, 0, 0), 5, cv2.LINE_AA)
         return 0, 0, 0, 0, 0, 0, 0, 0, img, img2, False
     else:
         cv2.putText(grayed, "Wyszarzenie obrazu", (5, IM_HEIGHT//2 - 305), font, 1.95, (0, 0, 0), 3, cv2.LINE_AA)
