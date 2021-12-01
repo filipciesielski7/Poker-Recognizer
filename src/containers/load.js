@@ -58,7 +58,7 @@ const LoadContainer = () => {
 
   function onRandomButtonClickChange() {
     setLoading(true);
-    let index = Math.ceil(Math.random() * 45);
+    let index = Math.ceil(Math.random() * 40);
     setImage(`${process.env.PUBLIC_URL}/examples/example${index}.jpg`);
     setTimeout(() => {
       setLoading(false);
