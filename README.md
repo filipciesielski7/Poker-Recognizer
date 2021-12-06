@@ -13,7 +13,7 @@ The main goal of this project was to implement card recognition algorithm using 
 Additionally, best poker hand combination finder algorithm was also implemented. All the results, including not only final image with recognized and signed cards but also description how implemented algorithm works based on specific uploaded image are repesented on created with [React](https://reactjs.org/) library website.
 ## Getting Started
 
-To run this website locally [yarn](hhttps://yarnpkg.com/) and [pip](https://pypi.org/project/pip/) package menagers must be installed on your system. In the projects directory:
+To run this website locally [yarn](https://yarnpkg.com/) and [pip](https://pypi.org/project/pip/) package menagers must be installed on your system. In the projects directory:
 
 1. Clone the repo
    ```sh

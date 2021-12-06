@@ -6,7 +6,7 @@ _Dostępne również w wersji po: [English](README.md)_
 
 ## O projekcie
 
-Celem projektu było zaimplementowanie algorytmu rozpoznającego ze zdjęcia karty do gry w pokera z wykorzystaniem [pythona](https://www.python.org/) i biblioteki [OpenCV](https://opencv.org/). 
+Celem projektu było zaimplementowanie algorytmu rozpoznającego ze zdjęcia karty do gry w pokera z wykorzystaniem [pythona](https://www.python.org/) i biblioteki [OpenCV](https://opencv.org/).
 
 ![result image](./public/results/result.jpg)
 
@@ -14,7 +14,7 @@ Dodatkowo zaimplementowany został algorytm znajdujący najlepszą możliwą pok
 
 ## Uruchamianie
 
-W celu uruchomienia programu lokalnie, wymagany jest menadżer pakietów [yarn](hhttps://yarnpkg.com/) oraz [pip](https://pypi.org/project/pip/). W folderze z projektami:
+W celu uruchomienia programu lokalnie, wymagany jest menadżer pakietów [yarn](https://yarnpkg.com/) oraz [pip](https://pypi.org/project/pip/). W folderze z projektami:
 
 1. Klonowanie repozytorium
    ```sh
