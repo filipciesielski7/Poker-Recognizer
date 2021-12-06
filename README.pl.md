@@ -6,11 +6,11 @@ _Dostępne również w wersji po: [English](README.md)_
 
 ## O projekcie
 
-Celem projektu było zaimplementowanie algorytmu rozpoznającego ze zdjęcia karty do gry w pokera z wykorzystaniem [pythona](https://www.python.org/) i biblioteki [OpenCV](https://opencv.org/).
+Poker Recognizer - projekt w ramach przedmiotu Komunikacja Człowiek Komputer na Politechnice Poznańskiej.
 
 ![result image](./public/results/result.jpg)
 
-Dodatkowo zaimplementowany został algorytm znajdujący najlepszą możliwą pokerową kombinacje pięciu z siedmiu przedstawionych na zdjęciu kart. Rezultat końcowy w postaci pierwotnie wgranego przez użytkownika zdjęcia z nałożonymi na niego odpowiednimi podpisami rozpoznanych kart oraz opis działania całego algorytmu na podstawie wgranego przykładu, przedstawiony został na dodatkowo stworzonej przy pomocy biblioteki [React](https://reactjs.org/) stronie internetowej.
+Celem projektu było zaimplementowanie algorytmu rozpoznającego ze zdjęcia karty do gry w pokera z wykorzystaniem [pythona](https://www.python.org/) i biblioteki [OpenCV](https://opencv.org/). Dodatkowo zaimplementowany został algorytm znajdujący najlepszą możliwą pokerową kombinacje pięciu z siedmiu przedstawionych na zdjęciu kart. Rezultat końcowy w postaci pierwotnie wgranego przez użytkownika zdjęcia z nałożonymi na niego odpowiednimi podpisami rozpoznanych kart oraz opis działania całego algorytmu na podstawie wgranego przykładu, przedstawiony został na dodatkowo stworzonej przy pomocy biblioteki [React](https://reactjs.org/) stronie internetowej.
 
 ## Uruchamianie
 
