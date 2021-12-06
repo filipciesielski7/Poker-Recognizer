@@ -8,7 +8,7 @@ _Also available in: [Polski](README.pl.md)_
 
 Poker Recognizer project for Human Computer Communication at Poznan University of Technology.
 
-![result image](./public/results/result.jpg)
+![result image](./public/result-sample.jpg)
 
 The main goal of this project was to implement card recognition algorithm using [python](https://www.python.org/) and [OpenCV](https://opencv.org/) library. 
 Additionally, best poker hand combination finder algorithm was also implemented. All the results, including not only final image with recognized and signed cards but also description how implemented algorithm works based on specific uploaded image are repesented on created with [React](https://reactjs.org/) library website.
