@@ -36,3 +36,9 @@ W celu uruchomienia programu lokalnie, wymagany jest menadżer pakietów [yarn](
    ```
 
 Następnie aby zobaczyć stronę, należy udać się pod adres: http://localhost:3000/
+
+## Autorzy
+
+<a href="https://github.com/filipciesielski7/Poker_Recognizer/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=filipciesielski7/Poker_Recognizer" />
+</a>
